@@ -1,17 +1,17 @@
 <template>
   <section class="Benchmark">
-    <bench-toolbar class="Benchmark-Toolbar"/>
+    <toolbar class="Benchmark-Toolbar"/>
     <editor class="Benchmark-Editor"/>
   </section>
 </template>
 
 <script>
-import BenchToolbar from '@/components/BenchToolbar.vue';
+import Toolbar from '@/components/Toolbar.vue';
 import Editor from '@/components/Editor.vue';
 
 export default {
   components: {
-    BenchToolbar,
+    Toolbar,
     Editor,
   },
 };
