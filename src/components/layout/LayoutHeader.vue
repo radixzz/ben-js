@@ -1,6 +1,10 @@
 <template>
   <header class="LayoutHeader">
-    Ben:js
+    <router-link :to="{ name: 'home' }">
+      <svg class="LayoutHeader-Logo">
+          <use xlink:href="#ben-logo"/>
+      </svg>
+    </router-link>
   </header>
 </template>
 
