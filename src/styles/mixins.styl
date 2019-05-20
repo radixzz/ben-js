@@ -1,5 +1,22 @@
 clickable()
     cursor pointer
+    user-select none
     -webkit-tap-highlight-color transparent
     &:focus
         outline none
+
+abs-center(args...)
+    display block
+    position absolute
+    backface-visibility hidden
+    h = horizontal in args
+    v = vertical in args
+    both = (not h) and (not v)
+    left 50% if h or both
+    top 50% if v or both
+    if (h and v) or both
+        transform translate(-50%, -50%)
+    else if h
+        transform translateX(-50%)
+    else if v
+        transform translateY(-50%)
