@@ -1,0 +1,73 @@
+@import '~styles/common'
+
+.TabsContainer
+  display flex
+  flex-direction column
+  size 100%
+  background $COD_GRAY
+
+.TabsContainer-Tabs
+  width 100%
+  flex-basis auto
+  flex-grow 0
+  flex-shrink 1
+
+.TabsContainer-Tabs-List
+  float left
+
+.TabsContainer-Tabs-Item
+  transition all 0.15s ease-out
+  clickable()
+  height 34px
+  display inline-block
+  padding 10px
+  font-size 13px
+  border-left 1px solid $MINE_SHAFT
+  border-right 1px solid $MINE_SHAFT
+  background #292929
+  &:hover
+    .TabsContainer-Tabs-ItemText
+      color $WHITE
+
+.TabsContainer-Tabs-ItemText
+  transition all 0.15s ease-out
+  color rgba($WHITE, 0.4)
+
+.TabsContainer-Tabs-ItemConfig
+  transition color 0.15s ease-out
+  display inline-block
+  margin-left 6px
+  color rgba($WHITE, 0.25)
+  > svg
+    size 14px
+  &:hover
+    color $WHITE
+
+.TabsContainer-Tabs-ListTools
+  float left
+  margin-left 2px
+
+.TabsContainer-Tabs-ListTools-Item
+  clickable()
+  position relative
+  size 32px
+  opacity 0.25
+  &:hover
+    opacity 1
+  svg
+    size 10px
+    abs-center()
+
+.TabsContainer-TabsItem--active
+  background $MINE_SHAFT
+  .TabsContainer-Tabs-ItemText
+    color $WHITE
+  .TabsContainer-Tabs-ItemConfig
+    color rgba($WHITE, 0.5)
+    &:hover
+      color $WHITE
+
+.TabsContainer-Sections
+  flex-basis auto
+  flex-grow 1
+  flex-shrink 1
