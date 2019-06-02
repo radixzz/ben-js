@@ -2,18 +2,18 @@
   <div class="Toolbar">
     <label-edit :text="title" @change="updateTitle"></label-edit>
     <div class="Toolbar-BenchActions">
-      <toolbar-button icon="play-triangle" hint="Run Benchmark" />
+      <app-button icon="play-triangle" hint="Run Benchmark" />
     </div>
   </div>
 </template>
 
 <script>
-import ToolbarButton from '@/components/ToolbarButton.vue'
+import AppButton from '@/components/AppButton.vue'
 import LabelEdit from '@/components/LabelEdit.vue'
 
 export default {
   components: {
-    ToolbarButton,
+    AppButton,
     LabelEdit,
   },
   data() {
