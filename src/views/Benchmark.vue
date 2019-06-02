@@ -18,10 +18,15 @@
         <editor
           v-model="editor.model"
           :active="visible"
+          :lang="editor.lang"
           @change="onEditorChange(editor, $event)"
         />
       </tabs-section>
     </tabs-container>
+    <editor-config
+      @close="onConfigClosed"
+      v-if="activeConfigEditor"
+    />
   </section>
 </template>
 
@@ -30,6 +35,7 @@ import Toolbar from '@/components/Toolbar.vue';
 import Editor from '@/components/Editor.vue';
 import TabsContainer from '@/components/tabs/TabsContainer.vue';
 import TabsSection from '@/components/tabs/TabsSection.vue';
+import EditorConfig from '@/components/EditorConfig.vue';
 
 export default {
   components: {
@@ -37,9 +43,11 @@ export default {
     Editor,
     TabsContainer,
     TabsSection,
+    EditorConfig,
   },
   data() {
     return {
+      activeConfigEditor: null,
       editors: [
         {
           title: 'HTML Setup',
@@ -74,7 +82,12 @@ export default {
       });
     },
     configureBlock(id) {
+      this.activeConfigEditor = {};
       console.log('configuring', id);
+    },
+    onConfigClosed(config) {
+      this.activeConfigEditor = null;
+      console.log(config);
     }
   }
 };
