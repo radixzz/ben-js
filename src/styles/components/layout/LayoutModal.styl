@@ -1,0 +1,41 @@
+@import '~styles/common.styl'
+
+.LayoutModal
+  display flex
+  align-items center
+  justify-content center
+  position fixed
+  size 100%
+  top 0
+
+.LayoutModal-Background
+  position absolute
+  background rgba($BLACK, 0.5)
+  size 100%
+
+.LayoutModal-Wrapper
+  box-shadow 0px 0px 10px 2px rgba(0,0,0,0.5);
+  width 50%
+  max-width 800px
+  min-width 320px
+  background $COD_GRAY
+  z-index 1
+
+.LayoutModal-TitleBar
+  display flex
+  justify-content space-between
+  width 100%
+  background $MINE_SHAFT
+  > h1
+    font-weight 300
+    margin-left 10px
+    font-size 16px
+    user-select none
+
+.LayoutModal-Content
+  padding 15px
+
+.LayoutModal-CloseButton
+  padding 10px
+  > svg
+    size 14px
