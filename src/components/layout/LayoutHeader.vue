@@ -5,6 +5,15 @@
           <use xlink:href="#ben-logo"/>
       </svg>
     </router-link>
+    <div class="LayoutHeader-Menu">
+      <div
+        class="LayoutHeader-Login"
+        @click="onLoginClick"
+        title="Login with GitHub"
+      >
+          <svg><use xlink:href="#icon-github"/></svg>
+      </div>
+    </div>
   </header>
 </template>
 
@@ -12,6 +21,11 @@
 export default {
   components: {
   },
+  methods: {
+    onLoginClick() {
+      console.log('login')
+    },
+  }
 };
 </script>
 

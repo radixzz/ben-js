@@ -1,3 +1,5 @@
+@import '~styles/common'
+
 .LayoutHeader
   flex-grow 0
   flex-shrink 1
@@ -5,7 +7,24 @@
   background-color $COD_GRAY
   height 80px
   padding 10px
+  display flex
+  flex-flow row
 
 .LayoutHeader-Logo
   height 100%
   width 150px
+
+.LayoutHeader-Menu
+  display flex
+  justify-content flex-end
+  align-items center
+  width 100%
+
+.LayoutHeader-Login
+  cursor pointer
+  size 50px
+  display flex
+  align-items center
+  justify-content center
+  &:hover svg
+    color $TUNDORA
