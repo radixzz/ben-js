@@ -1,0 +1,29 @@
+@import '~styles/common'
+
+.FormCheckbox
+  display flex
+  align-items center
+  position relative
+  margin 10px 0
+  input[type='checkbox']
+    display none
+  input[type='checkbox']:checked + .FormCheckbox-icon
+    svg
+      opacity 1
+      color $WHITE
+  .FormCheckbox-icon
+    padding 2px
+    border 1px solid $MINE_SHAFT
+    display inline-block
+    size 16px
+    background $MINE_SHAFT_PLUS
+    position relative
+    svg
+      display block
+      opacity 0
+      size 100%
+  &:hover .FormCheckbox-icon
+    border 1px solid $TUNDORA
+
+.FormCheckbox-text
+  margin-left 6px
