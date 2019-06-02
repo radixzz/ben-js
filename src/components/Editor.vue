@@ -24,6 +24,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    lang: {
+      type: String,
+      default: 'javascript',
+    }
   },
   mounted() {
     this.createEditor();
@@ -33,7 +37,7 @@ export default {
     createEditor() {
       this.editor = monaco.editor.create(this.$refs.editor, {
         value: this.value,
-        language: 'javascript',
+        language: this.lang,
         theme: 'vs-dark',
         minimap: {
           enabled: false,
