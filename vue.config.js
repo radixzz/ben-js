@@ -27,7 +27,7 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new CopyPlugin([
-        { from: 'static', to: 'assets' },
+        { from: 'static', to: './' },
       ]),
       new WebappWebpackPlugin({
         logo: resolve('favicon/favicon_template.png'),
