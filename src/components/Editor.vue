@@ -6,7 +6,6 @@
 
 <script>
 import * as monaco from 'monaco-editor';
-import '@/scripts/editor-env';
 
 export default {
   data() {

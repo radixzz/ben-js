@@ -1,3 +1,4 @@
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const rucksack = require('rucksack-css');
@@ -18,14 +19,15 @@ module.exports = {
       entry: resolve('src/main.js'),
       template: resolve('src/hbs/index.hbs'),
     },
-    'editor.worker': { entry: 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js' },
-    'json.worker': { entry: 'node_modules/monaco-editor/esm/vs/language/json/json.worker' },
-    'css.worker': { entry: 'node_modules/monaco-editor/esm/vs/language/css/css.worker' },
-    'html.worker': { entry: 'node_modules/monaco-editor/esm/vs/language/html/html.worker' },
-    'ts.worker': { entry: 'node_modules/monaco-editor/esm/vs/language/typescript/ts.worker' },
+    // 'editor.worker': { entry: 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js' },
+    // 'json.worker': { entry: 'node_modules/monaco-editor/esm/vs/language/json/json.worker' },
+    // 'css.worker': { entry: 'node_modules/monaco-editor/esm/vs/language/css/css.worker' },
+    // 'html.worker': { entry: 'node_modules/monaco-editor/esm/vs/language/html/html.worker' },
+    // 'ts.worker': { entry: 'node_modules/monaco-editor/esm/vs/language/typescript/ts.worker' },
   },
   configureWebpack: {
     plugins: [
+      new MonacoWebpackPlugin(),
       new CopyPlugin([
         { from: 'static', to: './' },
       ]),

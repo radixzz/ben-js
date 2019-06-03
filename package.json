@@ -35,6 +35,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.5.21",
-    "webapp-webpack-plugin": "^2.7.0"
+    "webapp-webpack-plugin": "^2.7.0",
+    "monaco-editor-webpack-plugin": "^1.7.0"
   }
 }
