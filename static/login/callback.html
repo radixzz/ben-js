@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BenJS</title>
+  <script src="https://cdn.auth0.com/js/auth0/9.10/auth0.min.js"></script>
+  <script>
+    var auth0 = new auth0.WebAuth({
+      domain: 'six.auth0.com',
+      clientID: 'enmJu2V6OjLOeWvf7u5D51M2lL5iqX55'
+    });
+    auth.parseHash({ hash: window.location.hash }, function(err, authResult) {
+      localStorage.setItem('loggedIn', "true");
+    })
+  </script>
+  <!-- <meta http-equiv="refresh" content="0;URL='http://benjs.dev'"/> -->
+</head>
+<body>
+</body>
+</html>
