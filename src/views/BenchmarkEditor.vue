@@ -1,9 +1,9 @@
 <template>
-  <section class="Benchmark">
-    <toolbar class="Benchmark-Toolbar"/>
+  <section class="BenchmarkEditor">
+    <toolbar class="BenchmarkEditor-Toolbar"/>
     <tabs-container
       ref="tabsContainer"
-      class="Benchmark-Editor"
+      class="BenchmarkEditor-Editor"
       @addTabClick="addTab"
       @configureClick="configureBlock"
     >
@@ -38,6 +38,7 @@ import TabsSection from '@/components/tabs/TabsSection.vue';
 import EditorConfig from '@/components/EditorConfig.vue';
 
 export default {
+  name: 'BenchmarkEditor',
   components: {
     Toolbar,
     Editor,
@@ -93,4 +94,4 @@ export default {
 };
 </script>
 
-<style lang="stylus" src="styles/views/Benchmark.styl"></style>
+<style lang="stylus" src="styles/views/BenchmarkEditor.styl"></style>
