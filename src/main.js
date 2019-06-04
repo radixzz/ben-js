@@ -1,17 +1,14 @@
 import 'sanitize.css/sanitize.css';
-
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+import authPlugin from './auth/authPlugin';
 import App from './App.vue';
-import routes from './routes';
+import router from './router';
 import store from './store';
 import ViewportSizeDirective from "./directives/ViewportSize";
 
 Vue.directive('viewport-size', ViewportSizeDirective);
-
+Vue.use(authPlugin);
 Vue.config.productionTip = false;
-const router = new VueRouter(routes);
-Vue.use(VueRouter);
 new Vue({
   store,
   router,
