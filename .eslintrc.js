@@ -72,6 +72,7 @@ module.exports = {
   globals: {
     document: true,
     window: true,
+    firebase: true,
   },
   parserOptions: {
     sourceType: 'module',
