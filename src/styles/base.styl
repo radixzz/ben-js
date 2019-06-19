@@ -2,7 +2,9 @@ html,
 body
   size 100%
   background $MINE_SHAFT
+  color $GRAY
   margin 0
+  font-family: 'Roboto', sans-serif;
 
 svg
   size 32px
@@ -26,3 +28,25 @@ textarea
 label
   user-select none
   cursor pointer
+
+h1, .h1
+  color $ALTO
+  font-family 'Lato', sans-serif
+  font-size 24px
+  margin 10px 0
+
+h1 + p
+  margin-top 0
+
+p
+  font-size 15px
+  line-height 1.3em
+  margin 10px 0
+  color $GRAY
+  strong
+    color $ALTO
+    font-weight 300
+
+::selection
+    background-color $TUNDORA
+    color $ALTO
