@@ -21,10 +21,18 @@
   width 100%
 
 .LayoutHeader-Login
-  cursor pointer
+  @extends .h-clickable
   size 50px
   display flex
   align-items center
   justify-content center
   &:hover svg
     color $TUNDORA
+
+.LayoutHeader-User
+  @extends .h-clickable
+  size 50px
+  background $TUNDORA
+  background-size cover
+  background-position center
+  border-radius 50%
