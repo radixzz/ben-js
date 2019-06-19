@@ -14,9 +14,7 @@ function findEditorById({ editors }, id) {
 }
 
 const actions = {
-  [LOAD_EDITORS]({ commit }) {
-
-  },
+  // [LOAD_EDITORS]({ commit }) {},
   [LOAD_EDITOR_CONTENTS]({ commit }, { id }) {
     // Retrieve from Local Storage or API
     const content = '';
