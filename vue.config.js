@@ -13,7 +13,7 @@ function resolve(dir) {
 
 module.exports = {
   assetsDir: 'assets',
-  outputDir: 'docs',
+  outputDir: 'dist',
   pages: {
     index: {
       entry: resolve('src/main.js'),

@@ -48,10 +48,12 @@ async function setUser(commit, user) {
 
 const actions = {
   async [AUTH_RESTORE]({ commit }) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       firebase.auth().onAuthStateChanged(
         async (user) => {
-          await setUser(commit, user);
+          if (user) {
+            await setUser(commit, user);
+          }
           resolve();
         }
       );

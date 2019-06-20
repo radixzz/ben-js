@@ -3,10 +3,9 @@
     <div
       class="Login-Content"
     >
-      <h1>Save your work with GitHub</h1>
+      <h1>Sign in to BenJS</h1>
       <p>
-        BenJS is fully dependant on GitHub for saving and sharing your tests online.
-        When you create a test you are actually creating a <strong>public gist</strong> in your account.
+        Save and share your benchmarks.
       </p>
       <div
         class="Login-Button"
