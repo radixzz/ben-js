@@ -57,7 +57,7 @@ async function onBeforeEach(to, from, next) {
       next({ name: 'login', query: { after_login: to.path } });
 
     // already logged in and headed to login page?
-    } else if (to.name === 'login') {
+    } else if (to.name === 'login' && Store.getters.signedIn) {
       next({ name: 'home' })
     } else {
       next();
