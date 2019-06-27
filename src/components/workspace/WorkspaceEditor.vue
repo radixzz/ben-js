@@ -1,11 +1,12 @@
 <template>
-  <div class="WorkspaceEditor" v-viewport-size:debounce.100="onResize">
+  <div class="WorkspaceEditor" v-resize:debounce="onResize">
     <div ref="editor" class="WorkspaceEditor-Container"></div>
   </div>
 </template>
 
 <script>
 import * as monaco from 'monaco-editor';
+import resize from 'vue-resize-directive';
 
 export default {
   data() {
@@ -13,6 +14,9 @@ export default {
       initialized: false,
       editor: null,
     }
+  },
+  directives: {
+    resize,
   },
   props: {
     value: {
