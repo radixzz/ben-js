@@ -1,0 +1,30 @@
+@import '~styles/common'
+
+.PanesContainer
+  position relative
+  display flex
+  size 100%
+
+.PanesContainer
+  .gutter
+    transition background-color 0.2s ease-out
+    background-color rgba($TUNDORA, 0)
+    &:after
+      content ''
+      display block
+    &:hover
+      background-color $TUNDORA
+  .gutter-horizontal:after
+    height 100%
+    background rgba($TUNDORA, 0.5)
+    margin auto
+    width 1px
+  .gutter-vertical:after
+    background rgba($TUNDORA, 0.5)
+    margin auto
+    width 100%
+    height 1px
+
+.PanesContainer--disabled
+  > .gutter
+    display none
