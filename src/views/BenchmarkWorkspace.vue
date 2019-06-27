@@ -1,44 +1,56 @@
 <template>
   <section class="BenchmarkWorkspace">
-    <workspace-sidebar
-      ref="sidebar"
-      v-show="sidebarVisible"
-    />
-    <div
-      ref="mainPane"
-      class="BenchmarkWorkspace-Main"
+    <panes-container
+      :sizes='[10, 90]'
+      :minSize='[180, 620]'
+      direction="horizontal"
+      :enabled="sidebarVisible"
     >
-      <workspace-toolbar
-        class="BenchmarkWorkspace-Toolbar"
-        @sidebarClick="toggleSidebar"
+      <workspace-sidebar
+        class="BenchmarkWorkspace-Sidebar"
+        v-show="sidebarVisible"
       />
-      <tabs-container
-        ref="tabsContainer"
-        class="BenchmarkWorkspace-Editor"
-        @addTabClick="addTab"
-        @configureClick="configureBlock"
+      <panes-split/>
+      <panes-container
+        class="BenchmarkWorkspace-Main"
+        :sizes='[90, 10]'
+        :minSize='[300, 50]'
+        direction="vertical"
       >
-        <tabs-section
-          v-for="(editor, index) in editors"
-          :key="index"
-          :title="editor.title"
-          :configurable="editor.configurable"
-          :language="editor.lang"
-          v-slot="{ visible }"
-        >
-          <workspace-editor
-            v-model="editor.model"
-            :active="visible"
-            :lang="editor.lang"
-            @change="onEditorChange(editor, $event)"
+        <div class="BenchmarkWorkspace-Pane">
+          <workspace-toolbar
+            class="BenchmarkWorkspace-Toolbar"
+            @sidebarClick="sidebarVisible = !sidebarVisible"
           />
-        </tabs-section>
-      </tabs-container>
-      <workspace-console
-        ref="console"
-        class="BenchmarkWorskpace-Console"
-      />
-    </div>
+          <tabs-container
+            ref="tabsContainer"
+            class="BenchmarkWorkspace-Editor"
+            @addTabClick="addTab"
+            @configureClick="configureBlock"
+          >
+            <tabs-section
+              v-for="(editor, index) in editors"
+              :key="index"
+              :title="editor.title"
+              :configurable="editor.configurable"
+              :language="editor.lang"
+              v-slot="{ visible }"
+            >
+              <workspace-editor
+                v-model="editor.model"
+                :active="visible"
+                :lang="editor.lang"
+                @change="onEditorChange(editor, $event)"
+              />
+            </tabs-section>
+          </tabs-container>
+        </div>
+        <panes-split/>
+        <workspace-console
+          class="BenchmarkWorskpace-Console"
+        />
+      </panes-container>
+    </panes-container>
     <workspace-editor-config
       @close="onConfigClosed"
       v-if="activeConfigEditor"
@@ -47,7 +59,6 @@
 </template>
 
 <script>
-import Split from 'split.js';
 import WorkspaceToolbar from '@/components/workspace/WorkspaceToolbar.vue';
 import WorkspaceSidebar from '@/components/workspace/WorkspaceSidebar.vue';
 import WorkspaceConsole from '@/components/workspace/WorkspaceConsole.vue';
@@ -55,6 +66,8 @@ import WorkspaceEditor from '@/components/workspace/WorkspaceEditor.vue';
 import WorkspaceEditorConfig from '@/components/workspace/WorkspaceEditorConfig.vue';
 import TabsContainer from '@/components/tabs/TabsContainer.vue';
 import TabsSection from '@/components/tabs/TabsSection.vue';
+import PanesContainer from '@/components/panes/PanesContainer.vue';
+import PanesSplit from '@/components/panes/PanesSplit.vue';
 
 export default {
   name: 'BenchmarkWorkspace',
@@ -66,6 +79,8 @@ export default {
     WorkspaceEditorConfig,
     TabsContainer,
     TabsSection,
+    PanesContainer,
+    PanesSplit,
   },
   data() {
     return {
@@ -88,7 +103,6 @@ export default {
     };
   },
   mounted() {
-    this.toggleSidebar();
   },
   methods: {
     onEditorChange(editor, content) {
@@ -106,34 +120,6 @@ export default {
         tabsContainer.updateTabs();
         tabsContainer.selectLastTab();
       });
-    },
-    toggleSidebar() {
-      const { sidebar, mainPane } = this.$refs;
-      this.sidebarVisible = !this.sidebarVisible;
-      if (this.sidebarSplit) {
-        this.sidebarSplit.destroy();
-        this.sidebarSplit = undefined;
-      }
-      if (this.sidebarVisible) {
-        this.sidebarSplit = Split([sidebar.$el, mainPane], {
-          sizes: [10, 90],
-          gutterSize: 5,
-          expandToMin: true,
-        })
-      }
-    },
-    bindConsoleSplit() {
-      const { sidebar, mainPane } = this.$refs;
-      if (this.sidebarSplit) {
-        this.sidebarSplit.destroy();
-        this.sidebarSplit = undefined;
-      }
-      if (this.sidebarVisible) {
-        this.sidebarSplit = Split([sidebar.$el, mainPane], {
-          sizes: [10, 90],
-          gutterSize: 5,
-        })
-      }
     },
     configureBlock(id) {
       this.activeConfigEditor = {};
