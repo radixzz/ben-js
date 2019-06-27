@@ -1,13 +1,18 @@
 @import '~styles/common'
 
 .AppButton
-  display inline-block
+  display inline-flex
+  align-items center
+  white-space nowrap
   clickable()
+  font-size 13px
+  margin 0 10px
 
 .AppButton:hover
   .AppButton-Icon
     opacity 1
 
 .AppButton-Icon
-  size 24px
+  size 18px
   opacity 0.65
+  margin-right 8px

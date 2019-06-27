@@ -7,6 +7,7 @@
       <svg class="AppButton-Icon">
           <use :xlink:href="`#icon-${icon}`"/>
       </svg>
+      <slot></slot>
   </div>
 </template>
 
