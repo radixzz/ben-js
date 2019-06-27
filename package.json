@@ -22,6 +22,7 @@
     "split.js": "^1.5.11",
     "superagent": "^5.1.0",
     "vue": "^2.6.10",
+    "vue-resize-directive": "^1.2.0",
     "vue-router": "^3.0.6",
     "vuex": "^3.0.1"
   },
