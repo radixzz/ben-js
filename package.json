@@ -19,6 +19,7 @@
     "rupture": "^0.7.1",
     "sanitize.css": "^8.0.0",
     "signals": "^1.0.0",
+    "split.js": "^1.5.11",
     "superagent": "^5.1.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
