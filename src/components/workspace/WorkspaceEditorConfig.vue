@@ -1,6 +1,6 @@
 <template>
   <layout-modal
-    class="EditorConfig"
+    class="WorkspaceEditorConfig"
     title="Configure Code Block"
     @close="onCloseClick"
   >
@@ -8,7 +8,7 @@
     <form-group>
       <form-checkbox label="Async" />
       <div
-        class="EditorConfig-Delete"
+        class="WorkspaceEditorConfig-Delete"
         @click="onDeleteClick"
       >
           <svg><use xlink:href="#icon-bin"/></svg>
@@ -25,7 +25,7 @@ import FormCheckbox from '@/components/form/FormCheckbox.vue';
 import FormGroup from '@/components/form/FormGroup.vue';
 
 export default {
-  name: 'EditorConfig',
+  name: 'WorkspaceEditorConfig',
   components: {
     LayoutModal,
     FormEdit,
@@ -48,4 +48,4 @@ export default {
 };
 </script>
 
-<style lang="stylus" src="styles/components/EditorConfig.styl"></style>
+<style lang="stylus" src="styles/components/workspace/WorkspaceEditorConfig.styl"></style>

@@ -4,7 +4,7 @@ import Store from './store';
 import { AUTH_RESTORE, AUTH_SIGN_OUT } from './store/modules/auth';
 import Home from "./views/Home.vue";
 import Login from './views/Login.vue';
-import BenchmarkEditor from "./views/BenchmarkEditor.vue";
+import BenchmarkWorkspace from "./views/BenchmarkWorkspace.vue";
 import BenchmarkViewer from "./views/BenchmarkViewer.vue";
 
 Vue.use(VueRouter);
@@ -29,14 +29,19 @@ const router = new VueRouter({
       component: Login,
     },
     {
-      path: "/view",
-      name: "bechmark-viewer",
+      path: "/username/:slug",
+      name: "benchmark-viewer",
       component: BenchmarkViewer,
     },
     {
-      path: "/edit",
-      name: "bechmark-editor",
-      component: BenchmarkEditor,
+      path: "/create",
+      name: "benchmark-editor-unpublished",
+      component: BenchmarkWorkspace,
+    },
+    {
+      path: "/:username/:slug/edit",
+      name: "benchmark-editor",
+      component: BenchmarkWorkspace,
       meta: {
         requiresAuth: true,
       },

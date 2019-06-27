@@ -1,0 +1,39 @@
+@import '~styles/common'
+
+.BenchmarkWorkspace
+  display flex
+  flex 1
+  overflow hidden
+  .gutter
+    transition background-color 0.2s ease-out
+    background-color rgba($TUNDORA, 0)
+    &:after
+      content ''
+      display block
+    &:hover
+      background-color $TUNDORA
+
+  .gutter-horizontal:after
+    height 100%
+    background rgba($TUNDORA, 0.5)
+    margin auto
+    width 1px
+
+.BenchmarkWorkspace-Main
+  size 100%
+  display flex
+  flex-flow column
+  min-width "calc(100% - %s)" % $SIDEBAR_MAX_WIDTH
+
+.BenchmarkWorkspace-Toolbar
+  width 100%
+  flex 0 0 auto
+
+.BenchmarkWorkspace-Editor
+  width 100%
+  flex 1
+
+.BenchmarkWorskpace-Console
+  width 100%
+  height 40px
+  flex 0 0 auto

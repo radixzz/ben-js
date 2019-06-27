@@ -1,6 +1,6 @@
 <template>
-  <div class="Editor" v-viewport-size:debounce.100="onResize">
-    <div ref="editor" class="Editor-Container"></div>
+  <div class="WorkspaceEditor" v-viewport-size:debounce.100="onResize">
+    <div ref="editor" class="WorkspaceEditor-Container"></div>
   </div>
 </template>
 
@@ -73,4 +73,4 @@ export default {
 };
 </script>
 
-<style lang="stylus" src="styles/components/Editor.styl"></style>
+<style lang="stylus" src="styles/components/workspace/WorkspaceEditor.styl"></style>
