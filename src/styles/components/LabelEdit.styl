@@ -1,10 +1,12 @@
 @import '~styles/common'
 
 .LabelEdit
-  display inline-block
+  display inline-flex
+  align-items center
   position relative
   color white
   font-size 16px
+  overflow hidden
   form
     display inline-block
   input
@@ -18,8 +20,13 @@
     &:focus
       outline none
 
+.LabelEdit-Text
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
 
 .LabelEdit-Icon
+  flex 0 0 auto
   margin-left 4px
   cursor pointer
   padding 3px

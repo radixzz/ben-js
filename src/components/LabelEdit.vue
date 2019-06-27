@@ -4,7 +4,7 @@
     :class="classEditModifiers"
   >
     <template v-if="!editMode">
-      {{this.text}}
+      <span class="LabelEdit-Text">{{this.text}}</span>
       <svg
         class="LabelEdit-Icon"
         @click="onEditClick"
