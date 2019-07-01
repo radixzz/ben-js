@@ -41,7 +41,7 @@ export default {
       this.signIn();
     },
     onUserClick() {
-
+      this.$emit('menuClick');
     },
     ...mapActions({
       signIn: AUTH_SIGN_IN

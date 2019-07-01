@@ -1,0 +1,51 @@
+@import '~styles/common.styl'
+
+.LayoutUserMenu
+  position fixed
+  right 10px
+  top 85px
+  z-index 1
+  border-radius 8px
+  background $MINE_SHAFT
+  border 1px solid $MINE_SHAFT_PLUS
+  box-shadow 0px 0px 10px 2px rgba(0,0,0,0.5);
+
+.LayoutUserMenu-Arrow
+  &:after
+  &:before
+    display block
+    position absolute
+    top -10px
+    right 13px
+    content ''
+    width 0
+    height 0
+    border-left 10px solid transparent
+    border-right 10px solid transparent
+    border-bottom 10px solid $MINE_SHAFT
+  &:before
+    top -11px
+    border-bottom 10px solid $MINE_SHAFT_PLUS
+
+.LayoutUserMenu-ListItem
+  font-size 13px
+  > a
+  > div
+    padding 8px 20px 8px 15px
+    display block
+    width 100%
+    color $ALTO
+    text-decoration none
+  > hr
+    border-top none
+    border-color rgba($MINE_SHAFT_PLUS, 0.5)
+    margin 0
+  &:hover
+    background $MINE_SHAFT_PLUS
+    > a
+      color $WHITE
+
+.LayoutUserMenu-ListItem--disabled
+  > a
+  > div
+    color $GRAY
