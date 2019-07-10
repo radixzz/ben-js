@@ -1,0 +1,38 @@
+@import '~styles/common.styl'
+
+.WidgetLibraries
+  position relative
+  margin 20px 0
+
+.WidgetLibraries-Title
+  font-size 13px
+  font-weight 100
+  color $ALTO
+  margin 2px 0
+
+.WidgetLibraries-Item
+  cursor pointer
+  display flex
+  > svg
+    display block
+    flex 0 0 auto
+    size 18px
+    fill $ALTO
+
+.WidgetLibraries-ItemInfo
+  width calc(100% - 18px)
+  display flex
+  justify-content space-between
+  font-size 13px
+  padding 2px 0
+  color $GRAY
+  > div:first-child
+    text-overflow ellipsis
+    white-space nowrap
+    overflow hidden
+    margin-right 2px
+  > div:last-child
+    color $TUNDORA
+    flex 0 0 auto
+  &:hover
+    color $ALTO
