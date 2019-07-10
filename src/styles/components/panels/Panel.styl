@@ -1,0 +1,26 @@
+@import '~styles/common.styl'
+
+.Panel
+  position relative
+  width calc(100% + 2px)
+  height 100%
+  display flex
+  flex-flow column
+  background $COD_GRAY
+
+.Panel-Title
+  user-select none
+  width 100%
+  color $GRAY
+  background $MINE_SHAFT
+  font-size 13px
+  height 34px
+  display flex
+  align-items center
+  padding-left 10px
+
+.Panel-Content
+  padding 10px
+  height 100%
+  overflow hidden auto
+  padding-bottom 10px
