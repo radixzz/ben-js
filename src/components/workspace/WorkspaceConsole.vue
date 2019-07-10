@@ -1,17 +1,17 @@
 <template>
   <nav class="WorkspaceConsole">
-
+    <panel-console />
   </nav>
 </template>
 
 <script>
+import PanelConsole from '@/components/panels/PanelConsole.vue';
 
 export default {
-  name: 'WorkspaceConsole',
   components: {
+    PanelConsole,
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
 
