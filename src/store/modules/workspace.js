@@ -5,6 +5,12 @@ export const SET_EDITOR_SETTING = 'editors/set-editor-settings';
 
 const state = {
   editors: [],
+  libraries: [
+    { name: "three", version: "0.106.2" },
+    { name: "lodash-minimal-development-version", version: "4.17.11" },
+  ],
+  title: "",
+  description: "",
 };
 
 const getters = {};

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import auth from './modules/auth';
 import database from './modules/database';
-import editors from './modules/editors';
+import workspace from './modules/workspace';
 
 Vue.use(Vuex);
 
@@ -11,6 +11,6 @@ export default new Vuex.Store({
   modules: {
     auth,
     database,
-    editors,
+    workspace,
   },
 });
