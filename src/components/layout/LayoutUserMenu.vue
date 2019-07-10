@@ -43,10 +43,6 @@ export default {
         this.$emit('close');
       }
     },
-    onItemClick(item) {
-
-      this.$emit('close');
-    },
     bindMouseEvent() {
       document.addEventListener('click', this.onOutsideClick);
       document.addEventListener('touchend', this.onOutsideClick);
