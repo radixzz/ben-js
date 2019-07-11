@@ -26,7 +26,7 @@ export default {
   components: {},
   props: {
     items: {
-      type: Object,
+      type: Array,
       default: () => [
         { name: 'three', version: '0.102.5' },
         { name: 'lodash', version: '1.23' }
