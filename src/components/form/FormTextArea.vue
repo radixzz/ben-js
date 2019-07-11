@@ -6,7 +6,9 @@
   >
     {{ label }}
     <textarea
-      value=""
+      ref="textarea"
+      :value="value"
+      @input="updateValue"
       autocomplete="false"
       :id='computedId'
       :name='computedId'
@@ -23,6 +25,10 @@ export default {
   components: {},
   props: {
     id: {
+      type: String,
+      default: '',
+    },
+    value: {
       type: String,
       default: '',
     },
@@ -45,6 +51,12 @@ export default {
     placeholder: {
       type: String,
       default: '',
+    }
+  },
+  methods: {
+    updateValue() {
+      const { textarea } = this.$refs;
+      this.$emit('change', textarea.value);
     }
   },
   computed: {

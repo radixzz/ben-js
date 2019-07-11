@@ -2,15 +2,17 @@
 
 .FormTextArea
   position relative
+  margin 10px 0
   textarea
     width 100%
     font-size 13px
-    background $MINE_SHAFT
     color $GRAY
-    border-color $MINE_SHAFT_PLUS
+    background $MINE_SHAFT
+    outline 1px solid $MINE_SHAFT_PLUS
+    border none
     line-height 1.2
     padding 5px
     resize none
-    outline none
-  textarea:focus
-    border-color $TUNDORA
+    &:focus
+      color $ALTO
+      outline 1px solid $TUNDORA
