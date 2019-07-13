@@ -1,7 +1,7 @@
 <template>
   <div class="WorkspaceToolbar">
     <app-button
-      icon="menu-bars"
+      icon="icon-menu-bars"
       hint="Show/Hide Sidebar"
       @click="$emit('sidebarClick')"
     />
@@ -10,8 +10,8 @@
       :text="title" @change="updateTitle"
     />
     <div class="WorkspaceToolbar-BenchActions">
-      <app-button icon="export" hint="Export">Export</app-button>
-      <app-button icon="cloud-upload" hint="Save your progress remotely">Save</app-button>
+      <app-button icon="icon-export" hint="Export">Export</app-button>
+      <app-button icon="icon-cloud-upload" hint="Save your progress remotely">Save</app-button>
     </div>
   </div>
 </template>
