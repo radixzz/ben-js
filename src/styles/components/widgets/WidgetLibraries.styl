@@ -19,20 +19,67 @@
     size 18px
     fill $ALTO
 
-.WidgetLibraries-ItemInfo
-  width calc(100% - 18px)
+.WidgetLibraries-Info
   display flex
-  justify-content space-between
-  font-size 13px
-  padding 2px 0
-  color $GRAY
-  > div:first-child
-    text-overflow ellipsis
-    white-space nowrap
-    overflow hidden
-    margin-right 2px
-  > div:last-child
+  p
+    margin 5px 0
     color $TUNDORA
-    flex 0 0 auto
+    font-size 13px
+    width calc(100% - 10px)
+    padding-left 10px
+  svg
+    pointer-events none
+    margin-top 8px
+    color $MINE_SHAFT_PLUS
+    size 18px
+
+.WidgetLibraries-Searchbox
+  margin-bottom 0px
+  input
+    padding-right 20px
+  svg
+    position absolute
+    right 6px
+    top 25px
+    color $TUNDORA
+    size 17px
+
+.WidgetLibraries-Item
+  display flex
+
+.WidgetLibraries-DraggableInput
+  display flex
+  width 100%
+  input
+    flex 1 1 auto
+    margin-left 10px
+    color $GRAY
+    padding 4px 6px
+    background $MINE_SHAFT
+    border 1px dashed $MINE_SHAFT_PLUS
+    outline none
+    &:focus
+      color $ALTO
+      border 1px dashed $TUNDORA
+
+.WidgetLibraries-DragHandle
+  cursor grab
+  flex 0 0 auto
+  display flex
+  align-items center
+  margin-left 2px
+  svg
+    size 15px
+    color $TUNDORA
+
+
+.AppButton.WidgetLibraries-AddScript
+  margin 5px
+  margin-top 20px
+  color $GRAY
+  > svg
+    size 10px
+    color $GRAY
+    margin-right 13px
   &:hover
-    color $ALTO
+    color $WHITE
