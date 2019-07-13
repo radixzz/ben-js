@@ -2,17 +2,26 @@
 
 .AppButton
   display inline-flex
+  background transparent
+  padding 0
+  border none
   align-items center
   white-space nowrap
+  color $ALTO
   clickable()
   font-size 13px
   margin 0 10px
 
 .AppButton:hover
+  color $WHITE
   .AppButton-Icon
     opacity 1
 
 .AppButton-Icon
   size 18px
   opacity 0.65
-  margin-right 8px
+  color $WHITE
+
+.AppButton--text
+  .AppButton-Icon
+    margin-right 8px

@@ -1,14 +1,15 @@
 <template>
-  <div
+  <button
     :title="hint"
     class="AppButton"
+    :class="classModifiers"
     @click="onClick"
   >
       <svg class="AppButton-Icon">
-          <use :xlink:href="`#icon-${icon}`"/>
+          <use :xlink:href="`#${icon}`"/>
       </svg>
       <slot></slot>
-  </div>
+  </button>
 </template>
 
 <script>
@@ -28,6 +29,15 @@ export default {
   methods: {
     onClick() {
       this.$emit('click');
+    }
+  },
+  computed: {
+    classModifiers() {
+      const { default: slots } = this.$slots;
+      const slotsCount = slots ? slots.length : 0
+      return {
+        'AppButton--text': slotsCount > 0,
+      }
     }
   }
 };
