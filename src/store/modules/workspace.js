@@ -8,8 +8,8 @@ export const SET_SETTING = 'workspace/set-settings';
 const state = {
   editors: [],
   libraries: [
-    { name: "three", version: "0.106.2" },
-    { name: "lodash-minimal-development-version", version: "4.17.11" },
+    { name: 'three', url: 'https://cdnjs.cloudflare.com/ajax/libs/three.js/106/three.min.js', version: '0.102.5' },
+    { name: 'lodash', url: 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.14/lodash.min.js', version: '1.23' }
   ],
   title: "Untitled",
   description: "",
