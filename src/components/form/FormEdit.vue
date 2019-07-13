@@ -12,8 +12,10 @@
       :value="value"
       :id='computedId'
       :name='computedId'
+      :placeholder='placeholder'
       :maxlength="maxLength"
     />
+    <slot></slot>
   </label>
 </template>
 
@@ -38,10 +40,14 @@ export default {
       type: String,
       default: '',
     },
+    placeholder: {
+      type: String,
+      default: ''
+    },
     maxLength: {
       type: Number,
       default: 50,
-    }
+    },
   },
   methods: {
     onClick() {
