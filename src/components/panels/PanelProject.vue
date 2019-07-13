@@ -20,9 +20,6 @@
         :rows='5'
         label="Description:"
       />
-      <widget-libraries
-        :items='libraries'
-      />
     </panel>
   </div>
 </template>
@@ -31,14 +28,12 @@
 import { mapState } from 'vuex'
 import { SET_TITLE, SET_DESCRIPTION } from '@/store/modules/workspace';
 import Panel from '@/components/panels/Panel.vue';
-import WidgetLibraries from '@/components/widgets/WidgetLibraries.vue';
 import FormEdit from '@/components/form/FormEdit.vue';
 import FormTextArea from '@/components/form/FormTextArea.vue';
 
 export default {
   components: {
     Panel,
-    WidgetLibraries,
     FormTextArea,
     FormEdit,
   },
@@ -52,7 +47,6 @@ export default {
   },
   computed: {
     ...mapState({
-      libraries: state => state.workspace.libraries,
       title: state => state.workspace.title,
       description: state => state.workspace.description,
     }),
