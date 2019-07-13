@@ -15,10 +15,15 @@
           <span>Delete Case</span>
       </div>
     </form-group>
+    <widget-libraries
+      :items='libraries'
+    />
   </layout-modal>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import WidgetLibraries from '@/components/widgets/WidgetLibraries.vue';
 import LayoutModal from '@/components/layout/LayoutModal.vue';
 import FormEdit from '@/components/form/FormEdit.vue';
 import FormCheckbox from '@/components/form/FormCheckbox.vue';
@@ -27,10 +32,11 @@ import FormGroup from '@/components/form/FormGroup.vue';
 export default {
   name: 'WorkspaceEditorConfig',
   components: {
-    LayoutModal,
     FormEdit,
-    FormCheckbox,
     FormGroup,
+    LayoutModal,
+    FormCheckbox,
+    WidgetLibraries,
   },
   data() {
     return {
@@ -44,6 +50,11 @@ export default {
     onCloseClick() {
       this.$emit('close');
     }
+  },
+  computed: {
+    ...mapState({
+      libraries: state => state.workspace.libraries,
+    }),
   },
 };
 </script>
