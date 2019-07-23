@@ -26,18 +26,20 @@
             ref="tabsContainer"
             class="BenchmarkWorkspace-Editor"
             @addTabClick="addTab"
-            @configureClick="configureBlock"
+            @selectedTabChange="onSelectedTabChange"
+            @configureClick="editorConfigVisible = true"
           >
             <tabs-section
               v-for="(editor, index) in editors"
               :key="index"
+              :id="editor.id"
               :title="editor.title"
               :configurable="editor.configurable"
               :language="editor.lang"
               v-slot="{ visible }"
             >
               <workspace-editor
-                v-model="editor.model"
+                v-model="editor.content"
                 :active="visible"
                 :lang="editor.lang"
                 @change="onEditorChange(editor, $event)"
@@ -52,13 +54,15 @@
       </panes-container>
     </panes-container>
     <workspace-editor-config
-      @close="onConfigClosed"
-      v-if="activeConfigEditor"
+      @close="editorConfigVisible = false"
+      v-if="editorConfigVisible && activeEditor"
     />
   </section>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+import { EDITORS_RESET, EDITORS_CREATE, EDITORS_ACTIVE } from '@/store/modules/types/action-types'
 import WorkspaceToolbar from '@/components/workspace/WorkspaceToolbar.vue';
 import WorkspaceSidebar from '@/components/workspace/WorkspaceSidebar.vue';
 import WorkspaceConsole from '@/components/workspace/WorkspaceConsole.vue';
@@ -84,52 +88,52 @@ export default {
   },
   data() {
     return {
-      activeConfigEditor: null,
+      initted: false,
       sidebarVisible: false,
-      editors: [
-        {
-          title: 'HTML Setup',
-          model: '// Model Editor 1',
-          lang: 'html',
-          configurable: false,
-        },
-        {
-          title: 'JS Setup',
-          model: '// Model Editor 2',
-          lang: 'javascript',
-          configurable: false,
-        },
-      ],
+      editorConfigVisible: true,
     };
   },
   mounted() {
+    if (!this.initted) {
+      this.initted = true;
+      if (!this.loadWorkspace()) {
+        this.loadDefault();
+      }
+    }
   },
   methods: {
+    loadWorkspace() {
+      const { $route } = this;
+      return false;
+    },
+    loadDefault() {
+      this.$store.dispatch(EDITORS_RESET);
+    },
     onEditorChange(editor, content) {
       editor.model = content;
     },
     addTab() {
-      const { tabsContainer } = this.$refs;
-      this.editors.push({
+      this.$store.dispatch(EDITORS_CREATE, {
         title: `Test Case ${this.editors.length + 1}`,
-        model: '// Type your test code here',
+        content: '// Type your test code here',
         lang: 'javascript',
         configurable: true,
       });
-      this.$nextTick(() => {
-        tabsContainer.updateTabs();
-        tabsContainer.selectLastTab();
-      });
     },
-    configureBlock(id) {
-      this.activeConfigEditor = {};
-      console.log('configuring', id);
+    onSelectedTabChange(id) {
+      if (id) {
+        this.$store.dispatch(EDITORS_ACTIVE, id);
+      }
     },
-    onConfigClosed(config) {
-      this.activeConfigEditor = null;
-      console.log(config);
-    }
-  }
+  },
+  computed: {
+    ...mapState({
+      editors: state => state.editors.items,
+    }),
+    ...mapGetters([
+      'activeEditor'
+    ])
+  },
 };
 </script>
 

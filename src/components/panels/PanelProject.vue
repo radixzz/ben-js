@@ -26,7 +26,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { SET_TITLE, SET_DESCRIPTION } from '@/store/modules/workspace';
+import { WORKSPACE_UPDATE } from '@/store/modules/types/action-types';
 import Panel from '@/components/panels/Panel.vue';
 import FormEdit from '@/components/form/FormEdit.vue';
 import FormTextArea from '@/components/form/FormTextArea.vue';
@@ -39,14 +39,22 @@ export default {
   },
   methods: {
     updateTitle(title) {
-      this.$store.dispatch(SET_TITLE, title);
+      this.updateWorskpace({ title });
     },
     updateDescription(description) {
-      this.$store.dispatch(SET_DESCRIPTION, description);
+      this.updateWorskpace({ description });
+    },
+    updateWorskpace(props) {
+      const { slug, title, description } = this;
+      this.$store.dispatch(WORKSPACE_UPDATE, {
+        ...{ slug, title, description },
+        ...props,
+      });
     }
   },
   computed: {
     ...mapState({
+      slug: state => state.workspace.slug,
       title: state => state.workspace.title,
       description: state => state.workspace.description,
     }),

@@ -4,7 +4,11 @@
     title="Configure Code Block"
     @close="onCloseClick"
   >
-    <form-edit label="Test Name"/>
+    <form-edit
+      label="Test Title"
+      @change="onTitleChanged"
+      v-model="activeEditor.title"
+    />
     <form-group>
       <form-checkbox label="Async" />
       <div
@@ -15,14 +19,13 @@
           <span>Delete Case</span>
       </div>
     </form-group>
-    <widget-libraries
-      :items='libraries'
-    />
+    <widget-libraries/>
   </layout-modal>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
+import { EDITORS_UPDATE, EDITORS_DELETE } from '@/store/modules/types/action-types'
 import WidgetLibraries from '@/components/widgets/WidgetLibraries.vue';
 import LayoutModal from '@/components/layout/LayoutModal.vue';
 import FormEdit from '@/components/form/FormEdit.vue';
@@ -38,10 +41,6 @@ export default {
     FormCheckbox,
     WidgetLibraries,
   },
-  data() {
-    return {
-    }
-  },
   methods: {
     onDeleteClick() {
       this.$emit('delete');
@@ -49,13 +48,16 @@ export default {
     },
     onCloseClick() {
       this.$emit('close');
-    }
+    },
+    onTitleChanged(value) {
+      console.log('Title Changed', value);
+    },
   },
   computed: {
-    ...mapState({
-      libraries: state => state.workspace.libraries,
-    }),
-  },
+    ...mapGetters([
+      'activeEditor',
+    ])
+  }
 };
 </script>
 

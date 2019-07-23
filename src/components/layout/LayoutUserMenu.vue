@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex'
-import { AUTH_SIGN_OUT } from '@/store/modules/auth'
+import { mapActions, mapState, mapGetters } from 'vuex';
+import { AUTH_SIGN_OUT } from '@/store/modules/types/action-types';
 
 export default {
   components: {},

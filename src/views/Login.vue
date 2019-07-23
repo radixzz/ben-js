@@ -16,6 +16,7 @@
       </div>
       <div
         class="Login-LocalLink"
+        @click="onLocalStorageClick"
       >Continue using local storage</div>
     </div>
   </section>
@@ -23,7 +24,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { AUTH_SIGN_IN } from '@/store/modules/auth'
+import { AUTH_SIGN_IN, AUTH_SIGN_IN_GUEST } from '@/store/modules/types/action-types'
 
 export default {
   components: {
@@ -32,8 +33,12 @@ export default {
     onGitLoginClick() {
       this.signIn();
     },
+    onLocalStorageClick() {
+      this.singInAsGuest();
+    },
     ...mapActions({
-      signIn: AUTH_SIGN_IN
+      signIn: AUTH_SIGN_IN,
+      singInAsGuest: AUTH_SIGN_IN_GUEST
     }),
   }
 };
