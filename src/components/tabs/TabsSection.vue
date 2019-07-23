@@ -13,6 +13,10 @@
 export default {
   name: 'TabsSection',
   props: {
+    id: {
+      type: String,
+      default: '',
+    },
     title: {
       type: String,
       default: '',
@@ -28,12 +32,6 @@ export default {
     }
   },
   mounted() {
-  },
-  computed: {
-    id() {
-      const { _uid } = this;
-      return `tab-${_uid}`
-    }
   },
 };
 </script>

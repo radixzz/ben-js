@@ -43,42 +43,49 @@
 </template>
 
 <script>
+import { differenceBy } from 'lodash';
 
 export default {
   name: 'TabsContainer',
   data() {
     return {
-      selectedIndex: -1,
+      selectedId: '',
       tabs: [],
     }
   },
   mounted() {
     this.updateTabs();
-    this.selectedIndex = 0;
+  },
+  updated() {
+    this.updateTabs();
   },
   methods: {
     updateTabs() {
       const { default: slots } = this.$slots;
-      this.tabs = slots.map(tab => tab.componentInstance);
-    },
-    getTabIndex(id) {
-      return this.tabs.findIndex(t => t.id === id);
-    },
-    selectTabById(id) {
-      const index = this.getTabIndex(id);
-      this.selectedIndex = index;
+      if (slots) {
+        const sections = slots.map(slot => slot.componentInstance);
+        const diff = differenceBy(sections, this.tabs, '_uid');
+        if (diff.length > 0) {
+          this.tabs.push(...diff);
+          const lastTab = diff.pop();
+          this.selectedId = lastTab.id;
+        }
+      }
     },
     selectLastTab() {
-      this.selectedIndex = this.tabs.length - 1;
+      const { tabs } = this;
+      if (tabs.length > 0) {
+        this.selectedId = tabs[tabs.length - 1].id;
+      }
     },
     updateVisibleTabs() {
-      const { tabs, selectedIndex } = this;
-      tabs.forEach((t, i) => {
-        t.visible = i === selectedIndex;
+      const { tabs, selectedId } = this;
+      tabs.forEach((t) => {
+        t.visible = t.id === selectedId
       });
     },
     onTabClick(id) {
-      this.selectTabById(id);
+      this.selectedId = id;
     },
     onConfigureClick(id) {
       this.$emit('configureClick', id);
@@ -87,20 +94,23 @@ export default {
       this.$emit('addTabClick');
     },
     getTabClassModifier(tabId) {
-      const idx = this.getTabIndex(tabId);
       return {
-        'TabsContainer-TabsItem--active': this.selectedIndex === idx,
+        'TabsContainer-TabsItem--active': this.selectedId === tabId,
       }
     },
   },
   computed: {
     activeTab() {
-      return this.tabs[this.selectedIndex];
-    }
+      return this.tabs[this.selectedId];
+    },
   },
   watch: {
-    selectedIndex() {
-      this.updateVisibleTabs();
+    selectedId: {
+      handler(value) {
+        this.updateVisibleTabs();
+        this.$emit('selectedTabChange', value);
+      },
+      immediate: true,
     },
   }
 };
