@@ -56,7 +56,7 @@ module.exports = {
     'space-before-blocks': ['off'],
     'space-before-function-paren': ['off'],
     'object-curly-newline': ['warn', {
-      'ImportDeclaration': 'never',
+      'ImportDeclaration': { 'multiline': true, 'minProperties': 4 },
       'ExportDeclaration': { 'multiline': true, 'minProperties': 4 },
     }],
     'camelcase': ['warn'],
