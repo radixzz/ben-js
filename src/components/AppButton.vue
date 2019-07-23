@@ -5,9 +5,10 @@
     :class="classModifiers"
     @click="onClick"
   >
-      <svg class="AppButton-Icon">
+      <svg class="AppButton-Icon" v-if="icon">
           <use :xlink:href="`#${icon}`"/>
       </svg>
+      <span>{{ text }}</span>
       <slot></slot>
   </button>
 </template>
@@ -25,6 +26,14 @@ export default {
       type: String,
       default: '',
     },
+    text: {
+      type: String,
+      default: '',
+    },
+    solid: {
+      type: Boolean,
+      default: true,
+    }
   },
   methods: {
     onClick() {
@@ -33,10 +42,9 @@ export default {
   },
   computed: {
     classModifiers() {
-      const { default: slots } = this.$slots;
-      const slotsCount = slots ? slots.length : 0
       return {
-        'AppButton--text': slotsCount > 0,
+        'AppButton--text': this.text.length > 0,
+        'AppButton--solid': this.solid,
       }
     }
   }
