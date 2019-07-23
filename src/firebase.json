@@ -1,0 +1,9 @@
+{
+  "apiKey": "AIzaSyCUo1SG72wdpp1NE5-uRIoD6OgsXTDqkOo",
+  "authDomain": "benjs-dev.firebaseapp.com",
+  "databaseURL": "https://benjs-dev.firebaseio.com",
+  "projectId": "benjs-dev",
+  "storageBucket": "gs://benjs-dev.appspot.com",
+  "messagingSenderId": "226890321270",
+  "appId": "1:226890321270:web:9a913fb2e37c8ad7"
+}
