@@ -1,0 +1,92 @@
+@import '~styles/common.styl'
+
+.WidgetLibrariesSearchbox
+  width 100%
+  display flex
+  flex-flow column
+
+.WidgetLibrariesSearchbox-FormEdit
+  margin-bottom 0px
+  input
+    padding-right 30px
+  svg
+    position absolute
+    right 6px
+    top 25px
+    color $TUNDORA
+    size 17px
+
+.WidgetLibrariesSearchbox-List
+  position absolute
+  top 0
+  background $COD_GRAY_MIN
+  width 100%
+  margin-top 59px
+  padding 5px 2px
+  border 1px solid $MINE_SHAFT_PLUS
+  z-index 1
+  margin-bottom 20px
+
+.WidgetLibrariesSearchbox-Item
+  transition all 2.25s ease-out
+  height 26px
+  overflow hidden
+  display flex
+  padding 5px 0
+  > p
+    font-size 13px
+  &:hover
+    .WidgetLibrariesSearchbox-ItemDot
+      background $GRAY
+
+.WidgetLibrariesSearchbox-ItemDot
+  transition all 0.25s ease-out
+  border-radius 5px
+  width 6px
+  margin 1px 8px
+  margin-top 9px
+  background $MINE_SHAFT_PLUS
+
+.WidgetLibrariesSearchbox-ItemContent
+  flex-grow 1
+  flex-basis 0px
+  overflow hidden
+  width 100%
+  margin-right 10px
+  b
+    color $RAW_SIENNA
+    font-style normal
+    font-weight 500
+  > h1
+  > p
+    transition all 0.25s ease-out
+    font-family 'Roboto', 'sans-serif'
+    font-size 13px
+    margin 5px 0 0 0
+  > p
+    color $GRAY
+  > h1
+    cursor pointer
+    font-weight 500
+    color $GRAY
+
+.WidgetLibrariesSearchbox-Item--selected
+  height auto
+  overflow-y auto
+  .WidgetLibrariesSearchbox-ItemDot
+    margin-bottom 0
+  &:hover
+    .WidgetLibrariesSearchbox-ItemDot
+      background $MINE_SHAFT_PLUS
+  .WidgetLibrariesSearchbox-ItemSelect
+  .WidgetLibrariesSearchbox-ItemButton
+    visibility visible
+  .WidgetLibrariesSearchbox-ItemContent
+    > h1
+      color $ALTO
+
+.WidgetLibrariesSearchbox-ItemSelect
+.WidgetLibrariesSearchbox-ItemButton
+  display inline-block
+  margin-right 10px
+  visibility hidden

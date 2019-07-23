@@ -3,6 +3,8 @@
 .WidgetLibraries
   position relative
   margin 20px 0
+  display flex
+  flex-flow column
 
 .WidgetLibraries-Title
   font-size 13px
@@ -33,20 +35,6 @@
     color $MINE_SHAFT_PLUS
     size 18px
 
-.WidgetLibraries-Searchbox
-  margin-bottom 0px
-  input
-    padding-right 20px
-  svg
-    position absolute
-    right 6px
-    top 25px
-    color $TUNDORA
-    size 17px
-
-.WidgetLibraries-Item
-  display flex
-
 .WidgetLibraries-DraggableInput
   display flex
   width 100%
@@ -72,14 +60,22 @@
     size 15px
     color $TUNDORA
 
-
 .AppButton.WidgetLibraries-AddScript
   margin 5px
   margin-top 20px
   color $GRAY
+  align-self flex-end
   > svg
     size 10px
     color $GRAY
     margin-right 13px
   &:hover
     color $WHITE
+
+.WidgetLibraries--flip
+  transition transform 0.5s
+
+.WidgetLibraries-Item--ghost
+  .WidgetLibraries-DragHandle
+    svg
+      color $CINNABAR
