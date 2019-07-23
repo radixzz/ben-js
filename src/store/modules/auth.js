@@ -1,18 +1,23 @@
+import firebaseConfig from '@/firebase.json';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/storage';
 import GithubAPI from '@/api/github-api';
 
-/*
-  Actions
-*/
-export const AUTH_RESTORE = 'auth/restore';
-export const AUTH_SIGN_IN = 'auth/sign-in';
-export const AUTH_SIGN_OUT = 'auth/sign-out';
+import {
+  AUTH_RESTORE,
+  AUTH_SIGN_IN,
+  AUTH_SIGN_OUT,
+} from './types/action-types';
 
-/*
-  Mutations
-*/
-export const AUTH_SET_ERROR = 'auth/error';
-export const AUTH_SET_USER = 'auth/set-user';
-export const AUTH_SET_TOKEN = 'auth/set-token';
+import {
+  AUTH_SET_ERROR,
+  AUTH_SET_USER,
+  AUTH_SET_TOKEN,
+} from './types/mutation-types';
+
+const app = firebase.initializeApp(firebaseConfig);
 
 const state = {
   user: {},
@@ -21,7 +26,8 @@ const state = {
 };
 
 const getters = {
-  signedIn: state => !!state.token && !!state.user.uid
+  signedIn: state => !!state.token && !!state.user.uid,
+  app: () => app,
 };
 
 async function setUser(commit, user) {
@@ -34,6 +40,7 @@ async function setUser(commit, user) {
         // get the username in a separated call (firebase is not providing this field)
         const gitUser = await api.getUserById(uid);
         commit(AUTH_SET_USER, {
+          isAnonymous: false,
           name: gitUser.name,
           username: gitUser.login,
           avatarUrl: gitUser.avatar_url,
@@ -48,7 +55,7 @@ async function setUser(commit, user) {
 
 const actions = {
   async [AUTH_RESTORE]({ commit }) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       firebase.auth().onAuthStateChanged(
         async (user) => {
           if (user) {
