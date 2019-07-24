@@ -25,13 +25,10 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  data() {
-    return {
-      visible: false,
+    visible: {
+      type: Boolean,
+      default: false,
     }
-  },
-  mounted() {
   },
 };
 </script>

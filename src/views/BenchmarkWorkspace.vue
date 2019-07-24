@@ -25,8 +25,10 @@
           <tabs-container
             ref="tabsContainer"
             class="BenchmarkWorkspace-Editor"
-            @addTabClick="addTab"
-            @selectedTabChange="onSelectedTabChange"
+            :tabs="editorTabs"
+            :selectedId="activeId"
+            @addClick="onTabAddClick"
+            @tabClick="onTabClick"
             @configureClick="editorConfigVisible = true"
           >
             <tabs-section
@@ -36,11 +38,11 @@
               :title="editor.title"
               :configurable="editor.configurable"
               :language="editor.lang"
-              v-slot="{ visible }"
+              :visible="editor.id === activeId"
             >
               <workspace-editor
                 v-model="editor.content"
-                :active="visible"
+                :active="editor.id === activeId"
                 :lang="editor.lang"
                 @change="onEditorChange(editor, $event)"
               />
@@ -55,6 +57,7 @@
     </panes-container>
     <workspace-editor-config
       @close="editorConfigVisible = false"
+      @delete="onEditorDelete"
       v-if="editorConfigVisible && activeEditor"
     />
   </section>
@@ -62,7 +65,12 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import { EDITORS_RESET, EDITORS_CREATE, EDITORS_ACTIVE } from '@/store/modules/types/action-types'
+import {
+  EDITORS_RESET,
+  EDITORS_DELETE,
+  EDITORS_CREATE,
+  EDITORS_ACTIVE
+} from '@/store/modules/types/action-types'
 import WorkspaceToolbar from '@/components/workspace/WorkspaceToolbar.vue';
 import WorkspaceSidebar from '@/components/workspace/WorkspaceSidebar.vue';
 import WorkspaceConsole from '@/components/workspace/WorkspaceConsole.vue';
@@ -90,7 +98,7 @@ export default {
     return {
       initted: false,
       sidebarVisible: false,
-      editorConfigVisible: true,
+      editorConfigVisible: false,
     };
   },
   mounted() {
@@ -112,7 +120,13 @@ export default {
     onEditorChange(editor, content) {
       editor.model = content;
     },
-    addTab() {
+    onEditorDelete(id) {
+      const currIndex = this.editors.findIndex(editor => editor.id === id);
+      const nextEditor = this.editors[currIndex + 1] || this.editors[currIndex - 1] || 0;
+      this.$store.dispatch(EDITORS_DELETE, { id });
+      this.$store.dispatch(EDITORS_ACTIVE, nextEditor.id);
+    },
+    onTabAddClick() {
       this.$store.dispatch(EDITORS_CREATE, {
         title: `Test Case ${this.editors.length + 1}`,
         content: '// Type your test code here',
@@ -120,10 +134,8 @@ export default {
         configurable: true,
       });
     },
-    onSelectedTabChange(id) {
-      if (id) {
-        this.$store.dispatch(EDITORS_ACTIVE, id);
-      }
+    onTabClick(id) {
+      this.$store.dispatch(EDITORS_ACTIVE, id);
     },
   },
   computed: {
@@ -131,8 +143,19 @@ export default {
       editors: state => state.editors.items,
     }),
     ...mapGetters([
-      'activeEditor'
-    ])
+      'activeEditor',
+    ]),
+    activeId() {
+      return this.activeEditor ? this.activeEditor.id : '';
+    },
+    editorTabs() {
+      const { editors } = this;
+      return editors.map(e => ({
+        id: e.id,
+        title: e.title,
+        configurable: e.configurable,
+      }))
+    },
   },
 };
 </script>

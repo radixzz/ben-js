@@ -43,55 +43,28 @@
 </template>
 
 <script>
-import { differenceBy } from 'lodash';
 
 export default {
   name: 'TabsContainer',
-  data() {
-    return {
-      selectedId: '',
-      tabs: [],
+  props: {
+    tabs: {
+      type: Array,
+      default: () => [],
+    },
+    selectedId: {
+      type: String,
+      default: '',
     }
   },
-  mounted() {
-    this.updateTabs();
-  },
-  updated() {
-    this.updateTabs();
-  },
   methods: {
-    updateTabs() {
-      const { default: slots } = this.$slots;
-      if (slots) {
-        const sections = slots.map(slot => slot.componentInstance);
-        const diff = differenceBy(sections, this.tabs, '_uid');
-        if (diff.length > 0) {
-          this.tabs.push(...diff);
-          const lastTab = diff.pop();
-          this.selectedId = lastTab.id;
-        }
-      }
-    },
-    selectLastTab() {
-      const { tabs } = this;
-      if (tabs.length > 0) {
-        this.selectedId = tabs[tabs.length - 1].id;
-      }
-    },
-    updateVisibleTabs() {
-      const { tabs, selectedId } = this;
-      tabs.forEach((t) => {
-        t.visible = t.id === selectedId
-      });
-    },
-    onTabClick(id) {
-      this.selectedId = id;
-    },
     onConfigureClick(id) {
       this.$emit('configureClick', id);
     },
     onAddClick() {
-      this.$emit('addTabClick');
+      this.$emit('addClick');
+    },
+    onTabClick(id) {
+      this.$emit('tabClick', id);
     },
     getTabClassModifier(tabId) {
       return {
@@ -99,20 +72,6 @@ export default {
       }
     },
   },
-  computed: {
-    activeTab() {
-      return this.tabs[this.selectedId];
-    },
-  },
-  watch: {
-    selectedId: {
-      handler(value) {
-        this.updateVisibleTabs();
-        this.$emit('selectedTabChange', value);
-      },
-      immediate: true,
-    },
-  }
 };
 </script>
 
