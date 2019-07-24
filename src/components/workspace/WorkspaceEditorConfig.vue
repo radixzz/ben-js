@@ -10,7 +10,11 @@
       v-model="activeEditor.title"
     />
     <form-group>
-      <form-checkbox label="Async" />
+      <form-checkbox
+        label="Async"
+        v-model="activeEditor.async"
+        @change="onAsyncChanged"
+      />
       <div
         class="WorkspaceEditorConfig-Delete"
         @click="onDeleteClick"
@@ -25,7 +29,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { EDITORS_UPDATE, EDITORS_DELETE } from '@/store/modules/types/action-types'
+import { EDITORS_UPDATE } from '@/store/modules/types/action-types'
 import WidgetLibraries from '@/components/widgets/WidgetLibraries.vue';
 import LayoutModal from '@/components/layout/LayoutModal.vue';
 import FormEdit from '@/components/form/FormEdit.vue';
@@ -43,15 +47,19 @@ export default {
   },
   methods: {
     onDeleteClick() {
-      this.$emit('delete');
+      this.$emit('delete', this.activeEditor.id);
       this.$emit('close');
     },
     onCloseClick() {
       this.$emit('close');
     },
-    onTitleChanged(value) {
-      console.log('Title Changed', value);
+    onTitleChanged(title) {
+      this.$store.dispatch(EDITORS_UPDATE, { id: this.activeEditor.id, title });
     },
+    onAsyncChanged(async) {
+      this.$store.dispatch(EDITORS_UPDATE, { id: this.activeEditor.id, async });
+    },
+
   },
   computed: {
     ...mapGetters([
