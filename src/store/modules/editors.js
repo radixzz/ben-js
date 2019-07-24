@@ -85,8 +85,10 @@ const getters = {
 
 const actions = {
   [EDITORS_ACTIVE]({ state, commit }, id) {
-    getEditorOrFail(state, id);
-    commit(EDITORS_SET_ACTIVE, id);
+    if (state.active !== id) {
+      getEditorOrFail(state, id);
+      commit(EDITORS_SET_ACTIVE, id);
+    }
   },
   [EDITORS_RESET]({ state, dispatch }) {
     state.items.forEach(item => dispatch(EDITORS_DELETE, item.id));
@@ -102,21 +104,23 @@ const actions = {
     return id;
   },
   [EDITORS_DELETE]({ state, commit }, { id }) {
-    getEditorOrFail(state.items, id);
+    getEditorOrFail(state, id);
     commit(EDITORS_REMOVE, { id });
     if (state.active === id) {
       commit(EDITORS_SET_ACTIVE, -1);
     }
   },
-  [EDITORS_UPDATE]({ state, commit }, { id, lang, title, configurable, async, libraries, content }) {
-    if (lang !== state.lang) commit(EDITORS_SET_LANG, { id, lang })
-    if (title !== state.title) commit(EDITORS_SET_TITLE, { id, title });
-    if (async !== state.async) commit(EDITORS_SET_ASYNC, { id, async });
-    if (content !== state.content) commit(EDITORS_SET_CONTENT, { id, content });
-    if (libraries !== state.libraries) commit(EDITORS_SET_LIBRARIES, { id, libraries });
-    if (configurable !== state.configurable) commit(EDITORS_SET_CONFIGURABLE, { id, configurable });
-  },
+  [EDITORS_UPDATE]({ state, commit }, payload) {
+    const editor = getEditorOrFail(state, payload.id);
+    const fields = { ...editor, ...payload };
+    if (fields.lang !== editor.lang) commit(EDITORS_SET_LANG, fields)
+    if (fields.title !== editor.title) commit(EDITORS_SET_TITLE, fields);
+    if (fields.async !== editor.async) commit(EDITORS_SET_ASYNC, fields);
+    if (fields.content !== editor.content) commit(EDITORS_SET_CONTENT, fields);
+    if (fields.libraries !== editor.libraries) commit(EDITORS_SET_LIBRARIES, fields);
+    if (fields.configurable !== editor.configurable) commit(EDITORS_SET_CONFIGURABLE, fields);
 
+  },
 };
 
 const mutations = {
@@ -126,7 +130,7 @@ const mutations = {
   [EDITORS_ADD](state, id) {
     state.items.push({ id, ...DefaultEditorProps })
   },
-  [EDITORS_REMOVE](state, id) {
+  [EDITORS_REMOVE](state, { id }) {
     const idx = state.items.findIndex(item => item.id === id);
     state.items.splice(idx, 1);
   },
