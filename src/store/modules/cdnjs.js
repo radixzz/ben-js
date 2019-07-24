@@ -63,10 +63,10 @@ const actions = {
 
 const mutations = {
   [CDNJS_SET_LIBRARIES](state, payload) {
-    state.libraries = payload;
+    state.libraries = Object.freeze(payload);
   },
   [CDNJS_SET_TARGETS](state, payload) {
-    state.targets = payload;
+    state.targets = Object.freeze(payload);
   },
   [CDNJS_SET_URL_TEMPLATE](state, payload) {
     state.url_template = payload;
