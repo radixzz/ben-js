@@ -72,7 +72,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(CDNJS_FETCH_LIBRARIES)
+    this.$store.dispatch(CDNJS_FETCH_LIBRARIES);
     this.debounceSearch = debounce(this.updateSearch, 100);
   },
   methods: {
@@ -132,7 +132,7 @@ export default {
   },
   computed: {
     ...mapState({
-      cdnjs: state => state.cdnjs
+      cdnjs: state => state.cdnjs,
     }),
     showResults() {
       return this.results.length > 0;
