@@ -1,14 +1,16 @@
 <template>
-  <div
+  <button
     :title="hint"
     class="AppButton"
+    :class="classModifiers"
     @click="onClick"
   >
-      <svg class="AppButton-Icon">
-          <use :xlink:href="`#icon-${icon}`"/>
+      <svg class="AppButton-Icon" v-if="icon">
+          <use :xlink:href="`#${icon}`"/>
       </svg>
+      <span>{{ text }}</span>
       <slot></slot>
-  </div>
+  </button>
 </template>
 
 <script>
@@ -24,10 +26,26 @@ export default {
       type: String,
       default: '',
     },
+    text: {
+      type: String,
+      default: '',
+    },
+    solid: {
+      type: Boolean,
+      default: true,
+    }
   },
   methods: {
     onClick() {
       this.$emit('click');
+    }
+  },
+  computed: {
+    classModifiers() {
+      return {
+        'AppButton--text': this.text.length > 0,
+        'AppButton--solid': this.solid,
+      }
     }
   }
 };

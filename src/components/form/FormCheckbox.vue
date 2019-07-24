@@ -9,7 +9,8 @@
         type="checkbox"
         :name='computedId'
         :id='computedId'
-        checked
+        :checked="value"
+        @change="onChange"
       />
       <span class="FormCheckbox-icon">
         <svg>
@@ -27,6 +28,10 @@ export default {
   name: 'FormCheckbox',
   components: {},
   props: {
+    value: {
+      type: Boolean,
+      default: false,
+    },
     id: {
       type: String,
       default: '',
@@ -43,6 +48,9 @@ export default {
   methods: {
     onClick() {
       this.$emit('click');
+    },
+    onChange(event) {
+      this.$emit('change', event.target.checked);
     }
   },
   computed: {

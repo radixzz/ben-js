@@ -14,4 +14,4 @@ export default {
 };
 </script>
 
-<style lang="stylus" src="styles/components/panes/PanesSplit.styl"></style>
+<style lang="stylus" src="styles/components/panes/PanesSplit.styl" scoped></style>

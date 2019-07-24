@@ -46,63 +46,32 @@
 
 export default {
   name: 'TabsContainer',
-  data() {
-    return {
-      selectedIndex: -1,
-      tabs: [],
+  props: {
+    tabs: {
+      type: Array,
+      default: () => [],
+    },
+    selectedId: {
+      type: String,
+      default: '',
     }
   },
-  mounted() {
-    this.updateTabs();
-    this.selectedIndex = 0;
-  },
   methods: {
-    updateTabs() {
-      const { default: slots } = this.$slots;
-      this.tabs = slots.map(tab => tab.componentInstance);
-    },
-    getTabIndex(id) {
-      return this.tabs.findIndex(t => t.id === id);
-    },
-    selectTabById(id) {
-      const index = this.getTabIndex(id);
-      this.selectedIndex = index;
-    },
-    selectLastTab() {
-      this.selectedIndex = this.tabs.length - 1;
-    },
-    updateVisibleTabs() {
-      const { tabs, selectedIndex } = this;
-      tabs.forEach((t, i) => {
-        t.visible = i === selectedIndex;
-      });
-    },
-    onTabClick(id) {
-      this.selectTabById(id);
-    },
     onConfigureClick(id) {
       this.$emit('configureClick', id);
     },
     onAddClick() {
-      this.$emit('addTabClick');
+      this.$emit('addClick');
+    },
+    onTabClick(id) {
+      this.$emit('tabClick', id);
     },
     getTabClassModifier(tabId) {
-      const idx = this.getTabIndex(tabId);
       return {
-        'TabsContainer-TabsItem--active': this.selectedIndex === idx,
+        'TabsContainer-TabsItem--active': this.selectedId === tabId,
       }
     },
   },
-  computed: {
-    activeTab() {
-      return this.tabs[this.selectedIndex];
-    }
-  },
-  watch: {
-    selectedIndex() {
-      this.updateVisibleTabs();
-    },
-  }
 };
 </script>
 

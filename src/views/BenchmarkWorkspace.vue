@@ -25,20 +25,24 @@
           <tabs-container
             ref="tabsContainer"
             class="BenchmarkWorkspace-Editor"
-            @addTabClick="addTab"
-            @configureClick="configureBlock"
+            :tabs="editorTabs"
+            :selectedId="activeId"
+            @addClick="onTabAddClick"
+            @tabClick="onTabClick"
+            @configureClick="editorConfigVisible = true"
           >
             <tabs-section
               v-for="(editor, index) in editors"
               :key="index"
+              :id="editor.id"
               :title="editor.title"
               :configurable="editor.configurable"
               :language="editor.lang"
-              v-slot="{ visible }"
+              :visible="editor.id === activeId"
             >
               <workspace-editor
-                v-model="editor.model"
-                :active="visible"
+                v-model="editor.content"
+                :active="editor.id === activeId"
                 :lang="editor.lang"
                 @change="onEditorChange(editor, $event)"
               />
@@ -52,13 +56,21 @@
       </panes-container>
     </panes-container>
     <workspace-editor-config
-      @close="onConfigClosed"
-      v-if="activeConfigEditor"
+      @close="editorConfigVisible = false"
+      @delete="onEditorDelete"
+      v-if="editorConfigVisible && activeEditor"
     />
   </section>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+import {
+  EDITORS_RESET,
+  EDITORS_DELETE,
+  EDITORS_CREATE,
+  EDITORS_ACTIVE
+} from '@/store/modules/types/action-types'
 import WorkspaceToolbar from '@/components/workspace/WorkspaceToolbar.vue';
 import WorkspaceSidebar from '@/components/workspace/WorkspaceSidebar.vue';
 import WorkspaceConsole from '@/components/workspace/WorkspaceConsole.vue';
@@ -84,52 +96,67 @@ export default {
   },
   data() {
     return {
-      activeConfigEditor: null,
+      initted: false,
       sidebarVisible: false,
-      editors: [
-        {
-          title: 'HTML Setup',
-          model: '// Model Editor 1',
-          lang: 'html',
-          configurable: false,
-        },
-        {
-          title: 'JS Setup',
-          model: '// Model Editor 2',
-          lang: 'javascript',
-          configurable: false,
-        },
-      ],
+      editorConfigVisible: false,
     };
   },
   mounted() {
+    if (!this.initted) {
+      this.initted = true;
+      if (!this.loadWorkspace()) {
+        this.loadDefault();
+      }
+    }
   },
   methods: {
+    loadWorkspace() {
+      const { $route } = this;
+      return false;
+    },
+    loadDefault() {
+      this.$store.dispatch(EDITORS_RESET);
+    },
     onEditorChange(editor, content) {
       editor.model = content;
     },
-    addTab() {
-      const { tabsContainer } = this.$refs;
-      this.editors.push({
+    onEditorDelete(id) {
+      const currIndex = this.editors.findIndex(editor => editor.id === id);
+      const nextEditor = this.editors[currIndex + 1] || this.editors[currIndex - 1] || 0;
+      this.$store.dispatch(EDITORS_DELETE, { id });
+      this.$store.dispatch(EDITORS_ACTIVE, nextEditor.id);
+    },
+    onTabAddClick() {
+      this.$store.dispatch(EDITORS_CREATE, {
         title: `Test Case ${this.editors.length + 1}`,
-        model: '// Type your test code here',
+        content: '// Type your test code here',
         lang: 'javascript',
         configurable: true,
       });
-      this.$nextTick(() => {
-        tabsContainer.updateTabs();
-        tabsContainer.selectLastTab();
-      });
     },
-    configureBlock(id) {
-      this.activeConfigEditor = {};
-      console.log('configuring', id);
+    onTabClick(id) {
+      this.$store.dispatch(EDITORS_ACTIVE, id);
     },
-    onConfigClosed(config) {
-      this.activeConfigEditor = null;
-      console.log(config);
-    }
-  }
+  },
+  computed: {
+    ...mapState({
+      editors: state => state.editors.items,
+    }),
+    ...mapGetters([
+      'activeEditor',
+    ]),
+    activeId() {
+      return this.activeEditor ? this.activeEditor.id : '';
+    },
+    editorTabs() {
+      const { editors } = this;
+      return editors.map(e => ({
+        id: e.id,
+        title: e.title,
+        configurable: e.configurable,
+      }))
+    },
+  },
 };
 </script>
 

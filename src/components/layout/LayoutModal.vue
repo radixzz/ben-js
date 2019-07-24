@@ -9,7 +9,8 @@
           @click="closeModal"
           class="LayoutModal-CloseButton"
           title="Close"
-          icon="cross"
+          icon="icon-cross"
+          :solid="false"
         />
       </div>
       <div class="LayoutModal-Content">

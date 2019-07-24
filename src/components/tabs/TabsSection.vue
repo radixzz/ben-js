@@ -13,6 +13,10 @@
 export default {
   name: 'TabsSection',
   props: {
+    id: {
+      type: String,
+      default: '',
+    },
     title: {
       type: String,
       default: '',
@@ -21,18 +25,9 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  data() {
-    return {
-      visible: false,
-    }
-  },
-  mounted() {
-  },
-  computed: {
-    id() {
-      const { _uid } = this;
-      return `tab-${_uid}`
+    visible: {
+      type: Boolean,
+      default: false,
     }
   },
 };

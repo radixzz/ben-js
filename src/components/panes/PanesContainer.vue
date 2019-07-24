@@ -74,6 +74,7 @@ export default {
   computed: {
     classModifiers() {
       return {
+        [`PanesContainer--${this.direction}`]: true,
         'PanesContainer--disabled': !this.enabled,
       }
     }

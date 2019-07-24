@@ -31,7 +31,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
-import { AUTH_SIGN_IN } from '@/store/modules/auth'
+import { AUTH_SIGN_IN } from '@/store/modules/types/action-types'
 
 export default {
   components: {
@@ -41,7 +41,7 @@ export default {
       this.signIn();
     },
     onUserClick() {
-
+      this.$emit('menuClick');
     },
     ...mapActions({
       signIn: AUTH_SIGN_IN

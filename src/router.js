@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Store from './store';
-import { AUTH_RESTORE, AUTH_SIGN_OUT } from './store/modules/auth';
+import { AUTH_RESTORE, AUTH_SIGN_OUT } from './store/modules/types/action-types';
 import Home from "./views/Home.vue";
 import Login from './views/Login.vue';
 import BenchmarkWorkspace from "./views/BenchmarkWorkspace.vue";
@@ -29,7 +29,7 @@ const router = new VueRouter({
       component: Login,
     },
     {
-      path: "/username/:slug",
+      path: "/:username/:slug",
       name: "benchmark-viewer",
       component: BenchmarkViewer,
     },
@@ -37,6 +37,9 @@ const router = new VueRouter({
       path: "/create",
       name: "benchmark-editor-unpublished",
       component: BenchmarkWorkspace,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: "/:username/:slug/edit",
@@ -56,11 +59,9 @@ async function onBeforeEach(to, from, next) {
     next({ name: 'home' });
   } else {
     await Store.dispatch(AUTH_RESTORE);
-
     // route requires login and is not logged in
     if (to.meta.requiresAuth && !Store.getters.signedIn) {
       next({ name: 'login', query: { after_login: to.path } });
-
     // already logged in and headed to login page?
     } else if (to.name === 'login' && Store.getters.signedIn) {
       next({ name: 'home' })

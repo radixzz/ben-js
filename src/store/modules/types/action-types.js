@@ -1,0 +1,15 @@
+export const EDITORS_RESET = 'editors/action/reset';
+export const EDITORS_CREATE = 'editors/action/create';
+export const EDITORS_UPDATE = 'editors/action/update';
+export const EDITORS_DELETE = 'editors/action/delete';
+export const EDITORS_ACTIVE = 'editors/action/active';
+export const WORKSPACE_UPDATE = 'workspace/action/update';
+export const WORKSPACE_RESET = 'workspace/action/reset';
+export const STORAGE_LOAD_WORKSPACE = 'storage/action/load-workspace';
+export const STORAGE_UPDATE_WORKSPACE = 'storage/action/update-workspace';
+export const STORAGE_REMOVE_WORKSPACE = 'storage/action/remove-workspace';
+export const AUTH_RESTORE = 'auth/action/restore';
+export const AUTH_SIGN_IN_GUEST = 'auth/action/sign-in-guest';
+export const AUTH_SIGN_IN = 'auth/action/sign-in';
+export const AUTH_SIGN_OUT = 'auth/action/sign-out';
+export const CDNJS_FETCH_LIBRARIES = 'cdnjs/action/fetch-libraries';

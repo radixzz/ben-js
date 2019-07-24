@@ -2,17 +2,35 @@
 
 .AppButton
   display inline-flex
+  transition all 0.15s ease-out
+  background transparent
+  padding 0
+  border none
   align-items center
   white-space nowrap
+  color $ALTO
   clickable()
   font-size 13px
-  margin 0 10px
+  padding 5px 10px
 
 .AppButton:hover
+  color $ALTO
   .AppButton-Icon
     opacity 1
 
 .AppButton-Icon
+  transition opacity 0.15s ease-out
   size 18px
   opacity 0.65
-  margin-right 8px
+  color $ALTO
+
+.AppButton--text
+  .AppButton-Icon
+    margin-right 8px
+
+.AppButton--solid
+  background $MINE_SHAFT
+  border 1px solid $MINE_SHAFT_PLUS
+  &:hover
+    background $COD_GRAY
+    border 1px solid $GRAY
