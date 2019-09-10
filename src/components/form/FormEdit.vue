@@ -55,7 +55,7 @@ export default {
     },
     onChange() {
       const { input } = this.$refs
-      this.$emit('change', input.value)
+      this.$emit('input', input.value)
     },
   },
   computed: {
