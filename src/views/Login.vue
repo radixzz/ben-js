@@ -23,10 +23,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { AUTH_SIGN_IN, AUTH_SIGN_IN_GUEST } from '@/store/modules/types/action-types'
 
 export default {
+  name: 'Login',
   components: {
   },
   methods: {
@@ -36,11 +37,32 @@ export default {
     onLocalStorageClick() {
       this.singInAsGuest();
     },
+    onLoggedIn() {
+      const { $router, $route } = this
+      const { after_login: afterLogin } = $route.query
+      if (afterLogin) {
+        $router.push({ path: afterLogin })
+      } else {
+        $router.push({ name: 'home' })
+      }
+    },
     ...mapActions({
       signIn: AUTH_SIGN_IN,
-      singInAsGuest: AUTH_SIGN_IN_GUEST
+      singInAsGuest: AUTH_SIGN_IN_GUEST,
     }),
-  }
+  },
+  computed: {
+    ...mapGetters([
+      'signedIn',
+    ])
+  },
+  watch: {
+    signedIn(value) {
+      if (value) {
+        this.onLoggedIn()
+      }
+    }
+  },
 };
 </script>
 
