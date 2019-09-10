@@ -101,6 +101,7 @@ const actions = {
     const id = createId(state);
     commit(EDITORS_ADD, id);
     dispatch(EDITORS_UPDATE, { id, ...DefaultEditorProps, ...props });
+    commit(EDITORS_SET_ACTIVE, id);
     return id;
   },
   [EDITORS_DELETE]({ state, commit }, { id }) {
