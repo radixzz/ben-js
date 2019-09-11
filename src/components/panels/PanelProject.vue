@@ -6,16 +6,14 @@
       <form-edit
         id="project-name"
         label="Project Name"
-        v-model="title"
+        v-model="workspace.title"
         :maxLength='40'
-        @change="updateTitle"
       />
       <form-text-area
         id="project-description"
         class="PanelProject-TextArea"
         placeholder="What are you testing?"
-        v-model="description"
-        @change="updateDescription"
+        v-model="workspace.description"
         :maxLength='250'
         :rows='5'
         label="Description:"
@@ -54,9 +52,7 @@ export default {
   },
   computed: {
     ...mapState({
-      slug: state => state.workspace.slug,
-      title: state => state.workspace.title,
-      description: state => state.workspace.description,
+      workspace: state => state.workspace,
     }),
   }
 };

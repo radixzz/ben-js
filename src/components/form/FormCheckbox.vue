@@ -50,7 +50,7 @@ export default {
       this.$emit('click');
     },
     onChange(event) {
-      this.$emit('change', event.target.checked);
+      this.$emit('input', event.target.checked);
     }
   },
   computed: {

@@ -58,7 +58,7 @@ export default {
   methods: {
     onChange() {
       const { input } = this.$refs
-      this.$emit('change', input.value)
+      this.$emit('input', input.value)
     },
     selectFirst() {
       const { options } = this;

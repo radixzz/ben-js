@@ -5,6 +5,7 @@ export const EDITORS_DELETE = 'editors/action/delete';
 export const EDITORS_ACTIVE = 'editors/action/active';
 export const WORKSPACE_UPDATE = 'workspace/action/update';
 export const WORKSPACE_RESET = 'workspace/action/reset';
+export const WORKSPACE_SIDEBAR = 'workspace/action/sidebar';
 export const STORAGE_LOAD_WORKSPACE = 'storage/action/load-workspace';
 export const STORAGE_UPDATE_WORKSPACE = 'storage/action/update-workspace';
 export const STORAGE_REMOVE_WORKSPACE = 'storage/action/remove-workspace';

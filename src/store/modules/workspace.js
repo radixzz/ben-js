@@ -1,18 +1,23 @@
 import {
   WORKSPACE_UPDATE,
   WORKSPACE_RESET,
+  WORKSPACE_SIDEBAR,
 } from './types/action-types';
 
 import {
   WORKSPACE_SET_DESCRIPTION,
   WORKSPACE_SET_TITLE,
   WORKSPACE_SET_SLUG,
+  WORKSPACE_SET_SIDEBAR,
 } from './types/mutation-types';
 
 const DefaultProps = {
   slug: '',
   description: '',
   title: 'Untitled',
+  sidebar: {
+    visible: false,
+  },
 };
 
 const state = {
@@ -30,6 +35,9 @@ const actions = {
   [WORKSPACE_RESET]({ dispatch }) {
     dispatch(WORKSPACE_UPDATE, { ...DefaultProps });
   },
+  [WORKSPACE_SIDEBAR]({ commit }, payload) {
+    commit(WORKSPACE_SET_SIDEBAR, payload)
+  },
 };
 
 const mutations = {
@@ -41,6 +49,9 @@ const mutations = {
   },
   [WORKSPACE_SET_DESCRIPTION](state, description) {
     state.description = description;
+  },
+  [WORKSPACE_SET_SIDEBAR](state, config) {
+    state.sidebar.visible = config.visible;
   }
 };
 

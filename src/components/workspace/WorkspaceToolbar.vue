@@ -1,15 +1,19 @@
 <template>
   <div class="WorkspaceToolbar">
-    <app-button
-      icon="icon-menu-bars"
-      hint="Show/Hide Sidebar"
-      :solid='false'
-      @click="$emit('sidebarClick')"
-    />
-    <label-edit
-      class="WorkspaceToolbar-LabelEdit"
-      :text="title" @change="updateTitle"
-    />
+    <div class="WorkspaceToolbar-LeftWrapper">
+      <app-button
+        class="WorkspaceToolbar-MenuButton"
+        icon="icon-menu-bars"
+        hint="Show/Hide Sidebar"
+        :solid='false'
+        @click="$emit('sidebarClick')"
+      />
+      <label-edit
+        v-show="!workspace.sidebar.visible"
+        class="WorkspaceToolbar-LabelEdit"
+        v-model="workspace.title"
+      />
+    </div>
     <div class="WorkspaceToolbar-BenchActions">
       <app-button icon="icon-export" hint="Export" text="Export" :solid='false'/>
       <app-button icon="icon-cloud-upload" hint="Save your progress remotely" text="Save" :solid='false'/>
@@ -18,6 +22,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import AppButton from '@/components/AppButton.vue'
 import LabelEdit from '@/components/LabelEdit.vue'
 
@@ -26,15 +31,10 @@ export default {
     AppButton,
     LabelEdit,
   },
-  data() {
-    return {
-      title: 'Untitled Benchmark'
-    }
-  },
-  methods: {
-    updateTitle(title) {
-      this.title = title;
-    }
+  computed: {
+    ...mapState({
+      workspace: state => state.workspace,
+    }),
   }
 };
 </script>

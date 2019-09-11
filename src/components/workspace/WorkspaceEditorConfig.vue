@@ -6,14 +6,12 @@
   >
     <form-edit
       label="Test Title"
-      @change="onTitleChanged"
       v-model="activeEditor.title"
     />
     <form-group>
       <form-checkbox
         label="Async"
         v-model="activeEditor.async"
-        @change="onAsyncChanged"
       />
       <div
         class="WorkspaceEditorConfig-Delete"
@@ -29,7 +27,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { EDITORS_UPDATE } from '@/store/modules/types/action-types'
 import WidgetLibraries from '@/components/widgets/WidgetLibraries.vue';
 import LayoutModal from '@/components/layout/LayoutModal.vue';
 import FormEdit from '@/components/form/FormEdit.vue';
@@ -53,13 +50,6 @@ export default {
     onCloseClick() {
       this.$emit('close');
     },
-    onTitleChanged(title) {
-      this.$store.dispatch(EDITORS_UPDATE, { id: this.activeEditor.id, title });
-    },
-    onAsyncChanged(async) {
-      this.$store.dispatch(EDITORS_UPDATE, { id: this.activeEditor.id, async });
-    },
-
   },
   computed: {
     ...mapGetters([

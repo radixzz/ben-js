@@ -8,7 +8,7 @@
     <textarea
       ref="textarea"
       :value="value"
-      @input="updateValue"
+      @input="onChange"
       autocomplete="false"
       :id='computedId'
       :name='computedId'
@@ -54,9 +54,9 @@ export default {
     }
   },
   methods: {
-    updateValue() {
+    onChange() {
       const { textarea } = this.$refs;
-      this.$emit('change', textarea.value);
+      this.$emit('input', textarea.value);
     }
   },
   computed: {
