@@ -24,6 +24,7 @@ module.exports = {
     plugins: [
       new MonacoWebpackPlugin({
         languages: ['typescript', 'javascript', 'html'],
+        output: 'monaco',
       }),
       new CopyPlugin([
         { from: 'static', to: './' },

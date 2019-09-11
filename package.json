@@ -14,7 +14,7 @@
     "fuzzysort": "^1.1.4",
     "lodash": "^4.17.11",
     "lost": "^8.3.1",
-    "monaco-editor": "^0.17.0",
+    "monaco-editor": "^0.17.1",
     "nib": "^1.1.2",
     "rucksack-css": "^1.0.2",
     "rupture": "^0.7.1",
