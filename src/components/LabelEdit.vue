@@ -4,7 +4,7 @@
     :class="classEditModifiers"
   >
     <template v-if="!editMode">
-      <span class="LabelEdit-Text">{{this.text}}</span>
+      <span class="LabelEdit-Text">{{this.value}}</span>
       <svg
         class="LabelEdit-Icon"
         @click="onEditClick"
@@ -18,7 +18,7 @@
         @keydown.enter.prevent="commitChanges"
         @blur="commitChanges"
         type="text"
-        :value="text"
+        :value="value"
       >
     </form>
   </div>
@@ -33,7 +33,7 @@ export default {
     }
   },
   props: {
-    text: {
+    value: {
       type: String,
       default: '',
     },
@@ -48,7 +48,7 @@ export default {
     commitChanges() {
       const { input } = this.$refs;
       this.editMode = false;
-      this.$emit('change', input.value);
+      this.$emit('input', input.value);
     },
   },
   computed: {
