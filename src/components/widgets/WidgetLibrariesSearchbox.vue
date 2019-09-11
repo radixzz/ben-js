@@ -4,8 +4,7 @@
       class="WidgetLibrariesSearchbox-FormEdit"
       label="External Scripts"
       placeholder="Type to search from CDNjs (lodash, rxjs, ramda, etc)"
-      :value="query"
-      @change="onInputChange"
+      v-model="query"
     >
       <svg><use xlink:href="#icon-magnifier"/></svg>
     </form-edit>
@@ -76,10 +75,6 @@ export default {
     this.debounceSearch = debounce(this.updateSearch, 100);
   },
   methods: {
-    onInputChange(value) {
-      this.query = value;
-      this.debounceSearch();
-    },
     onItemClick(index) {
       this.selectedIndex = index;
     },
@@ -138,6 +133,11 @@ export default {
       return this.results.length > 0;
     }
   },
+  watch: {
+    query() {
+      this.debounceSearch();
+    }
+  }
 };
 </script>
 
