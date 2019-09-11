@@ -79,9 +79,12 @@ export default {
     }
   },
   watch: {
-    options() {
-      this.selectFirst();
-    },
+    options: {
+      handler() {
+        this.selectFirst();
+      },
+      immediate: true,
+    }
   },
 };
 </script>
