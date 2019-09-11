@@ -9,9 +9,9 @@
         @click="$emit('sidebarClick')"
       />
       <label-edit
-        v-show="true"
+        v-show="!workspace.sidebar.visible"
         class="WorkspaceToolbar-LabelEdit"
-        :text="title" @change="updateTitle"
+        v-model="workspace.title"
       />
     </div>
     <div class="WorkspaceToolbar-BenchActions">
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import AppButton from '@/components/AppButton.vue'
 import LabelEdit from '@/components/LabelEdit.vue'
 
@@ -30,15 +31,10 @@ export default {
     AppButton,
     LabelEdit,
   },
-  data() {
-    return {
-      title: 'Untitled Benchmark'
-    }
-  },
-  methods: {
-    updateTitle(title) {
-      this.title = title;
-    }
+  computed: {
+    ...mapState({
+      workspace: state => state.workspace,
+    }),
   }
 };
 </script>

@@ -4,11 +4,11 @@
       :sizes='[10, 90]'
       :minSize='[180, 620]'
       direction="horizontal"
-      :enabled="sidebarVisible"
+      :enabled="workspace.sidebar.visible"
     >
       <workspace-sidebar
         class="BenchmarkWorkspace-Sidebar"
-        v-show="sidebarVisible"
+        v-show="workspace.sidebar.visible"
       />
       <panes-split/>
       <panes-container
@@ -20,7 +20,7 @@
         <div class="BenchmarkWorkspace-Pane">
           <workspace-toolbar
             class="BenchmarkWorkspace-Toolbar"
-            @sidebarClick="sidebarVisible = !sidebarVisible"
+            @sidebarClick="onSideBarClick"
           />
           <tabs-container
             ref="tabsContainer"
@@ -69,7 +69,8 @@ import {
   EDITORS_RESET,
   EDITORS_DELETE,
   EDITORS_CREATE,
-  EDITORS_ACTIVE
+  EDITORS_ACTIVE,
+  WORKSPACE_SIDEBAR,
 } from '@/store/modules/types/action-types'
 import WorkspaceToolbar from '@/components/workspace/WorkspaceToolbar.vue';
 import WorkspaceSidebar from '@/components/workspace/WorkspaceSidebar.vue';
@@ -97,7 +98,6 @@ export default {
   data() {
     return {
       initted: false,
-      sidebarVisible: false,
       editorConfigVisible: false,
     };
   },
@@ -126,6 +126,9 @@ export default {
       this.$store.dispatch(EDITORS_DELETE, { id });
       this.$store.dispatch(EDITORS_ACTIVE, nextEditor.id);
     },
+    onSideBarClick() {
+      this.$store.dispatch(WORKSPACE_SIDEBAR, { visible: !this.workspace.sidebar.visible })
+    },
     onTabAddClick() {
       this.$store.dispatch(EDITORS_CREATE, {
         title: `Test Case ${this.editors.length + 1}`,
@@ -141,6 +144,7 @@ export default {
   computed: {
     ...mapState({
       editors: state => state.editors.items,
+      workspace: state => state.workspace,
     }),
     ...mapGetters([
       'activeEditor',
