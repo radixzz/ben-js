@@ -1,15 +1,19 @@
 <template>
   <div class="WorkspaceToolbar">
-    <app-button
-      icon="icon-menu-bars"
-      hint="Show/Hide Sidebar"
-      :solid='false'
-      @click="$emit('sidebarClick')"
-    />
-    <label-edit
-      class="WorkspaceToolbar-LabelEdit"
-      :text="title" @change="updateTitle"
-    />
+    <div class="WorkspaceToolbar-LeftWrapper">
+      <app-button
+        class="WorkspaceToolbar-MenuButton"
+        icon="icon-menu-bars"
+        hint="Show/Hide Sidebar"
+        :solid='false'
+        @click="$emit('sidebarClick')"
+      />
+      <label-edit
+        v-show="true"
+        class="WorkspaceToolbar-LabelEdit"
+        :text="title" @change="updateTitle"
+      />
+    </div>
     <div class="WorkspaceToolbar-BenchActions">
       <app-button icon="icon-export" hint="Export" text="Export" :solid='false'/>
       <app-button icon="icon-cloud-upload" hint="Save your progress remotely" text="Save" :solid='false'/>
