@@ -9,7 +9,6 @@
         @click="$emit('sidebarClick')"
       />
       <label-edit
-        v-show="!workspace.sidebar.visible"
         class="WorkspaceToolbar-LabelEdit"
         v-model="workspace.title"
       />
@@ -22,20 +21,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import AppButton from '@/components/AppButton.vue'
 import LabelEdit from '@/components/LabelEdit.vue'
+import MixinWorkspace from '@/mixins/MixinWorkspace';
 
 export default {
   components: {
     AppButton,
     LabelEdit,
   },
-  computed: {
-    ...mapState({
-      workspace: state => state.workspace,
-    }),
-  }
+  mixins: [
+    MixinWorkspace
+  ],
 };
 </script>
 
