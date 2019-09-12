@@ -30,8 +30,12 @@ const getters = {};
 const actions = {
   [WORKSPACE_UPDATE_TITLE]({ commit }, title) {
     if (title !== state.title) {
-      commit(WORKSPACE_SET_TITLE, title)
-      commit(WORKSPACE_SET_SLUG, 'slug')
+      const slug = title
+        .toLowerCase()
+        .replace(/[^\w ]+/g, '')
+        .replace(/ +/g, '-');
+      commit(WORKSPACE_SET_TITLE, title);
+      commit(WORKSPACE_SET_SLUG, slug);
     }
   },
   [WORKSPACE_UPDATE_DESCRIPTION]({ commit }, description) {
@@ -42,7 +46,7 @@ const actions = {
     dispatch(WORKSPACE_UPDATE_DESCRIPTION, DefaultProps.description);
   },
   [WORKSPACE_SIDEBAR]({ commit }, payload) {
-    commit(WORKSPACE_SET_SIDEBAR, payload)
+    commit(WORKSPACE_SET_SIDEBAR, payload);
   },
 };
 
