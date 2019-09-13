@@ -23,10 +23,15 @@
 </template>
 
 <script>
+import {
+  WORKSPACE_UPDATE_TITLE,
+  WORKSPACE_UPDATE_DESCRIPTION,
+  WORKSPACE_SIDEBAR,
+} from '@/store/modules/types/action-types';
+import { mapStateFields } from '@/utils/utils-vuex';
 import Panel from '@/components/panels/Panel.vue';
 import FormEdit from '@/components/form/FormEdit.vue';
 import FormTextArea from '@/components/form/FormTextArea.vue';
-import MixinWorkspace from '@/mixins/MixinWorkspace';
 
 export default {
   name: 'PanelProject',
@@ -35,9 +40,13 @@ export default {
     FormTextArea,
     FormEdit,
   },
-  mixins: [
-    MixinWorkspace,
-  ],
+  computed: {
+    ...mapStateFields('workspace', [
+      { action: WORKSPACE_UPDATE_TITLE, prop: 'title' },
+      { action: WORKSPACE_UPDATE_DESCRIPTION, prop: 'description' },
+      { action: WORKSPACE_SIDEBAR, prop: 'sidebar.visible' },
+    ])
+  }
 };
 </script>
 

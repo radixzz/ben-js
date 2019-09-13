@@ -1,11 +1,4 @@
 
-import {
-  WORKSPACE_UPDATE_TITLE,
-  WORKSPACE_UPDATE_DESCRIPTION,
-  WORKSPACE_SIDEBAR,
-  WORKSPACE_RESET,
-} from '@/store/modules/types/action-types';
-
 function mockPropsPath(obj, path, value) {
   const props = path.split('.');
   let lastKey = null;
@@ -30,7 +23,7 @@ function getNestedProp(obj, path) {
   return keys.reduce((prev, k) => prev && prev[k], obj);
 }
 
-function bindFields(store, storePath, fields) {
+export function bindFields(store, storePath, fields) {
   const obj = {};
   const storeModule = getNestedProp(store.state, storePath);
   fields.forEach((field) => {
@@ -51,7 +44,7 @@ function bindFields(store, storePath, fields) {
   return obj;
 }
 
-function mapStoreModule(storePath, fields) {
+export function mapStateFields(storePath, fields) {
   let cacheEntry = null;
   const props = {
     get() {
@@ -63,14 +56,4 @@ function mapStoreModule(storePath, fields) {
   };
   const root = mockPropsPath({}, storePath, props);
   return root;
-}
-
-export default {
-  computed: {
-    ...mapStoreModule('workspace', [
-      { action: WORKSPACE_UPDATE_TITLE, prop: 'title' },
-      { action: WORKSPACE_UPDATE_DESCRIPTION, prop: 'description' },
-      { action: WORKSPACE_SIDEBAR, prop: 'sidebar.visible' },
-    ])
-  }
 }

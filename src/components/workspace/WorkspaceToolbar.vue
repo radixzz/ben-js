@@ -21,18 +21,21 @@
 </template>
 
 <script>
+import { WORKSPACE_UPDATE_TITLE } from '@/store/modules/types/action-types';
+import { mapStateFields } from '@/utils/utils-vuex';
 import AppButton from '@/components/AppButton.vue'
 import LabelEdit from '@/components/LabelEdit.vue'
-import MixinWorkspace from '@/mixins/MixinWorkspace';
 
 export default {
   components: {
     AppButton,
     LabelEdit,
   },
-  mixins: [
-    MixinWorkspace
-  ],
+  computed: {
+    ...mapStateFields('workspace', [
+      { action: WORKSPACE_UPDATE_TITLE, prop: 'title' },
+    ])
+  }
 };
 </script>
 
