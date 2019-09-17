@@ -1,8 +1,8 @@
-import firebaseConfig from '@/firebase.json';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/storage';
+import firebaseConfig from '@/firebase.json';
 import GithubAPI from '@/api/github-api';
 
 import {
