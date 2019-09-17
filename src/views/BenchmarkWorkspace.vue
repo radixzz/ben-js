@@ -41,10 +41,11 @@
               :visible="editor.id === activeId"
             >
               <workspace-editor
-                v-model="editor.content"
+                :id="editor.id"
+                :content="editor.content"
                 :active="editor.id === activeId"
                 :lang="editor.lang"
-                @change="onEditorChange(editor, $event)"
+                @change="onEditorChange"
               />
             </tabs-section>
           </tabs-container>
@@ -69,6 +70,7 @@ import {
   EDITORS_RESET,
   EDITORS_DELETE,
   EDITORS_CREATE,
+  EDITORS_UPDATE_CONTENT,
   EDITORS_ACTIVE,
   WORKSPACE_SIDEBAR,
 } from '@/store/modules/types/action-types'
@@ -104,21 +106,20 @@ export default {
   mounted() {
     if (!this.initted) {
       this.initted = true;
-      if (!this.loadWorkspace()) {
-        this.loadDefault();
-      }
+      this.loadDefault();
     }
   },
   methods: {
-    loadWorkspace() {
-      const { $route } = this;
-      return false;
-    },
     loadDefault() {
-      this.$store.dispatch(EDITORS_RESET);
+      if (this.editors.length === 0) {
+        this.$store.dispatch(EDITORS_RESET);
+      }
     },
-    onEditorChange(editor, content) {
-      editor.model = content;
+    onEditorChange(editorId, content) {
+      this.$store.dispatch(EDITORS_UPDATE_CONTENT, {
+        id: editorId,
+        content,
+      });
     },
     onEditorDelete(id) {
       const currIndex = this.editors.findIndex(editor => editor.id === id);
@@ -127,7 +128,7 @@ export default {
       this.$store.dispatch(EDITORS_ACTIVE, nextEditor.id);
     },
     onSideBarClick() {
-      this.$store.dispatch(WORKSPACE_SIDEBAR, { visible: !this.workspace.sidebar.visible })
+      this.$store.dispatch(WORKSPACE_SIDEBAR, { visible: !this.workspace.sidebar.visible });
     },
     onTabAddClick() {
       this.$store.dispatch(EDITORS_CREATE, {

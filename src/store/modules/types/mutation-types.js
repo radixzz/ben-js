@@ -11,7 +11,6 @@ export const WORKSPACE_SET_DESCRIPTION = 'workspace/mutation/set-description';
 export const WORKSPACE_SET_TITLE = 'workspace/mutation/set-title';
 export const WORKSPACE_SET_SLUG = 'workspace/mutation/set-slug';
 export const WORKSPACE_SET_SIDEBAR = 'workspace/mutation/set-sidebar';
-export const STORAGE_SET_WORKSPACE = 'storage/mutation/set-workspace';
 export const AUTH_SET_ERROR = 'auth/error';
 export const AUTH_SET_USER = 'auth/set-user';
 export const AUTH_SET_TOKEN = 'auth/set-token';

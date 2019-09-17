@@ -13,7 +13,7 @@ import {
 } from './types/mutation-types';
 
 const DefaultProps = {
-  slug: '',
+  slug: 'untitled',
   description: '',
   title: 'Untitled',
   sidebar: {
@@ -39,7 +39,9 @@ const actions = {
     }
   },
   [WORKSPACE_UPDATE_DESCRIPTION]({ commit }, description) {
-    if (description !== state.description) commit(WORKSPACE_SET_DESCRIPTION, description);
+    if (description !== state.description) {
+      commit(WORKSPACE_SET_DESCRIPTION, description);
+    }
   },
   [WORKSPACE_RESET]({ dispatch }) {
     dispatch(WORKSPACE_UPDATE_TITLE, DefaultProps.title);
@@ -62,7 +64,7 @@ const mutations = {
   },
   [WORKSPACE_SET_SIDEBAR](state, config) {
     state.sidebar.visible = config.visible;
-  }
+  },
 };
 
 export default {

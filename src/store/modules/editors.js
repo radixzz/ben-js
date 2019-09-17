@@ -1,7 +1,8 @@
 import {
   EDITORS_RESET,
   EDITORS_CREATE,
-  EDITORS_UPDATE,
+  EDITORS_UPDATE_OPTIONS,
+  EDITORS_UPDATE_CONTENT,
   EDITORS_DELETE,
   EDITORS_ACTIVE,
 } from './types/action-types';
@@ -47,7 +48,7 @@ const DefaultEditorProps = {
 
 const state = {
   items: [],
-  active: -1,
+  active: 'Unknown',
 };
 
 function getGUID() {
@@ -85,7 +86,7 @@ const getters = {
 
 const actions = {
   [EDITORS_ACTIVE]({ state, commit }, id) {
-    if (state.active !== id) {
+    if (id && state.active !== id) {
       getEditorOrFail(state, id);
       commit(EDITORS_SET_ACTIVE, id);
     }
@@ -100,7 +101,7 @@ const actions = {
   [EDITORS_CREATE]({ state, commit, dispatch }, props = {}) {
     const id = createId(state);
     commit(EDITORS_ADD, id);
-    dispatch(EDITORS_UPDATE, { id, ...DefaultEditorProps, ...props });
+    dispatch(EDITORS_UPDATE_OPTIONS, { id, ...DefaultEditorProps, ...props });
     commit(EDITORS_SET_ACTIVE, id);
     return id;
   },
@@ -108,16 +109,18 @@ const actions = {
     getEditorOrFail(state, id);
     commit(EDITORS_REMOVE, { id });
     if (state.active === id) {
-      commit(EDITORS_SET_ACTIVE, -1);
+      commit(EDITORS_SET_ACTIVE, 'Unknown');
     }
   },
-  [EDITORS_UPDATE]({ state, commit }, payload) {
+  [EDITORS_UPDATE_CONTENT]({ commit }, payload) {
+    commit(EDITORS_SET_CONTENT, payload);
+  },
+  [EDITORS_UPDATE_OPTIONS]({ state, commit }, payload) {
     const editor = getEditorOrFail(state, payload.id);
     const fields = { ...editor, ...payload };
     if (fields.lang !== editor.lang) commit(EDITORS_SET_LANG, fields)
     if (fields.title !== editor.title) commit(EDITORS_SET_TITLE, fields);
     if (fields.async !== editor.async) commit(EDITORS_SET_ASYNC, fields);
-    if (fields.content !== editor.content) commit(EDITORS_SET_CONTENT, fields);
     if (fields.libraries !== editor.libraries) commit(EDITORS_SET_LIBRARIES, fields);
     if (fields.configurable !== editor.configurable) commit(EDITORS_SET_CONFIGURABLE, fields);
 
