@@ -77,7 +77,7 @@ export default {
     },
     updateLibraries() {
       const { inputLibs } = this.$refs;
-      this.libraries = inputLibs.map((input, idx) => input.value);
+      this.libraries = inputLibs.map(input => input.value);
     },
     saveLibraries() {
       this.$store.dispatch(EDITORS_UPDATE_OPTIONS, {
