@@ -45,9 +45,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { EDITORS_UPDATE } from '@/store/modules/types/action-types'
 import draggable from 'vuedraggable';
+import { mapGetters } from 'vuex'
+import { EDITORS_UPDATE_OPTIONS } from '@/store/modules/types/action-types'
 import WidgetLibrariesSearchbox from '@/components/widgets/WidgetLibrariesSearchbox.vue';
 import AppButton from '@/components/AppButton.vue';
 
@@ -80,7 +80,7 @@ export default {
       this.libraries = inputLibs.map((input, idx) => input.value);
     },
     saveLibraries() {
-      this.$store.dispatch(EDITORS_UPDATE, {
+      this.$store.dispatch(EDITORS_UPDATE_OPTIONS, {
         id: this.activeEditor.id,
         libraries: this.libraries,
       });
