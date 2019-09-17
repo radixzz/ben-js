@@ -27,17 +27,26 @@ export function bindFields(store, storePath, fields) {
   const obj = {};
   const storeModule = getNestedProp(store.state, storePath);
   fields.forEach((field) => {
-    mockPropsPath(obj, field.prop, null);
-    const parentPath = field.prop.split('.').slice(0, -1).join('.');
+    const prop = field.prop || field.getter;
+    mockPropsPath(obj, prop, null);
+    const parentPath = prop.split('.').slice(0, -1).join('.');
     const parentProp = getNestedProp(obj, parentPath) || obj;
-    const targetKey = field.prop.split('.').pop();
+    const targetKey = prop.split('.').pop();
     Object.defineProperty(parentProp, targetKey, {
       configurable: true,
       get() {
+        if (field.getter) {
+          return getNestedProp(store.getters, field.getter);
+        }
+        // read directly from store state object
         return getNestedProp(storeModule, field.prop);
       },
       set(val) {
-        store.dispatch(field.action, val);
+        if (field.setter) {
+          field.setter(store, val)
+        } else {
+          store.dispatch(field.action, val);
+        }
       }
     })
   })
