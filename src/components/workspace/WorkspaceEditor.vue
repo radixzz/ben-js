@@ -19,7 +19,11 @@ export default {
     resize,
   },
   props: {
-    value: {
+    id: {
+      type: String,
+      required: true,
+    },
+    content: {
       type: String,
       default: '',
     },
@@ -32,6 +36,9 @@ export default {
       default: 'javascript',
     }
   },
+  model: {
+    event: 'change',
+  },
   mounted() {
     this.createEditor();
     this.initialized = true;
@@ -39,7 +46,7 @@ export default {
   methods: {
     createEditor() {
       this.editor = monaco.editor.create(this.$refs.editor, {
-        value: this.value,
+        value: this.content,
         language: this.lang,
         theme: 'vs-dark',
         minimap: {
@@ -49,7 +56,7 @@ export default {
       this.editor.onDidChangeModelContent(this.onModelChange)
     },
     onModelChange() {
-      this.$emit('change', this.editor.getValue());
+      this.$emit('change', this.id, this.editor.getValue());
     },
     onResize() {
       if (this.initialized) {
@@ -67,10 +74,10 @@ export default {
         })
       }
     },
-    value(model) {
+    content(str) {
       const { editor } = this;
-      if (this.value !== model) {
-        editor.setValue(model);
+      if (this.content !== str) {
+        editor.setValue(str);
       }
     }
   }
