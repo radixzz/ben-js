@@ -9,6 +9,7 @@
         @click="$emit('sidebarClick')"
       />
       <label-edit
+        v-if="!workspace.sidebar.visible"
         class="WorkspaceToolbar-LabelEdit"
         v-model="workspace.title"
       />
@@ -33,6 +34,7 @@ export default {
   },
   computed: {
     ...mapStateFields('workspace', [
+      { prop: 'sidebar.visible' },
       { action: WORKSPACE_UPDATE_TITLE, prop: 'title' },
     ])
   }
