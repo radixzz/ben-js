@@ -45,7 +45,8 @@ export function bindFields(store, storePath, fields) {
         if (field.setter) {
           field.setter(store, val)
         } else {
-          store.dispatch(field.action, val);
+          const actions = Array.isArray(field.action) ? field.action : [field.action];
+          actions.forEach(action => store.dispatch(action, val));
         }
       }
     })
