@@ -26,7 +26,6 @@
 import {
   WORKSPACE_UPDATE_TITLE,
   WORKSPACE_UPDATE_DESCRIPTION,
-  WORKSPACE_SIDEBAR,
 } from '@/store/modules/types/action-types';
 import { mapStateFields } from '@/utils/utils-vuex';
 import Panel from '@/components/panels/Panel.vue';
@@ -44,7 +43,6 @@ export default {
     ...mapStateFields('workspace', [
       { action: WORKSPACE_UPDATE_TITLE, prop: 'title' },
       { action: WORKSPACE_UPDATE_DESCRIPTION, prop: 'description' },
-      { action: WORKSPACE_SIDEBAR, prop: 'sidebar.visible' },
     ])
   }
 };
