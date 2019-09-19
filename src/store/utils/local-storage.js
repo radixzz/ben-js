@@ -1,41 +1,11 @@
-import { throttle } from 'lodash';
-import pathToRegexp from 'path-to-regexp';
-import queryString from 'query-string';
+import {
+  throttle,
+  get,
+  set,
+  merge
+} from 'lodash';
 import createPersistedState from 'vuex-persistedstate';
-
-function routeMatch(routePattern, location) {
-  let result;
-  const { pathname, search } = location;
-  const regx = pathToRegexp(routePattern);
-  if (regx.test(pathname)) {
-    const match = regx.exec(pathname).slice(1);
-    const tokens = pathToRegexp
-      .parse(routePattern)
-      .filter(t => typeof t === 'object');
-    result = {
-      path: pathname,
-      params: match.reduce((prev, str, idx) => {
-        prev[tokens[idx].name] = str;
-        return prev;
-      }, {}),
-      query: queryString.parse(search),
-    };
-  }
-  return result;
-}
-
-function getMatchingRoute(routes) {
-  const { location } = window
-  let result;
-  for (let i = 0; i < routes.length; i++) {
-    const route = routes[i];
-    const match = routeMatch(route.path, location);
-    if (match) {
-      result = { ...match, route };
-    }
-  }
-  return result;
-}
+import { getMatchingRoute } from './route-match';
 
 function getStorageKey(match) {
   const { storageKey } = match.route;
@@ -43,40 +13,74 @@ function getStorageKey(match) {
   return isFuncKey ? storageKey(match) : storageKey;
 }
 
-function setStorageState(globalKey, localKey, state, storage) {
-  const key = `${globalKey}:${localKey}`;
-  storage.setItem(key, JSON.stringify(state));
+function getFilteredState(storeProps, state) {
+  return storeProps.reduce((obj, prop) => set(obj, prop, get(state, prop)), {});
 }
 
-function getStorageState(globalKey, localKey, storage) {
-  const key = `${globalKey}:${localKey}`;
+function setStorageState(key, state, storage) {
+  storage.setItem(key, JSON.stringify(state));
+  console.log('localStorage: write - ', key);
+}
+
+function getStorageState(key, storage) {
   const val = storage.getItem(key);
+  console.log('localStorage: read - ', key);
   if (val !== undefined) {
     return JSON.parse(val);
   }
   return undefined;
 }
 
-const setStateThrottled = throttle(setStorageState, 1000);
+/*
+  From root state pick the keys related to
+  first matching route and return it.
+*/
+function getRouteMatch(routes, callback) {
+  const match = getMatchingRoute(routes);
+  if (match) {
+    const localKey = getStorageKey(match);
+    callback(localKey, match);
+  }
+}
+
+const setStateThrottled = throttle(setStorageState, 100);
 
 export default function LocalStorage(config) {
+  console.log('localStorage is initted');
   return createPersistedState({
     key: config.key,
-    paths: config.paths,
+    // paths: config.store,
     setState(globalKey, state, storage) {
-      const match = getMatchingRoute(config.routes);
-      if (match) {
-        const localKey = getStorageKey(match);
-        setStateThrottled(globalKey, localKey, state, storage);
+      const states = [];
+      // extract only defined route states
+      getRouteMatch(config.routes, (key, match) => {
+        const routePaths = match.route.store;
+        states.push({
+          key: `${globalKey}:${key}`,
+          state: getFilteredState(routePaths, state)
+        });
+      })
+      // extract global defined states
+      if (config.store && config.store.length > 0) {
+        states.push({
+          key: globalKey,
+          state: getFilteredState(config.store, state)
+        });
       }
+      states.forEach(entry => setStateThrottled(entry.key, entry.state, storage));
     },
     getState(globalKey, storage) {
-      const match = getMatchingRoute(config.routes);
-      if (match) {
-        const localKey = getStorageKey(match);
-        return getStorageState(globalKey, localKey, storage);
+      let state = {};
+      // attach route state
+      getRouteMatch(config.routes, (key) => {
+        state = merge(state, getStorageState(`${globalKey}:${key}`, storage));
+      });
+      // attach global state
+      if (config.store && config.store.length > 0) {
+        const globalState = getStorageState(globalKey, storage);
+        state = merge(state, globalState);
       }
-      return undefined;
+      return state;
     }
   });
 }
