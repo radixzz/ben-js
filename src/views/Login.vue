@@ -38,12 +38,12 @@ export default {
       this.singInAsGuest();
     },
     onLoggedIn() {
-      const { $router, $route } = this
-      const { after_login: afterLogin } = $route.query
+      const { $router, $route } = this;
+      const { after_login: afterLogin } = $route.query;
       if (afterLogin) {
-        $router.push({ path: afterLogin })
+        $router.push({ path: afterLogin });
       } else {
-        $router.push({ name: 'home' })
+        $router.push({ name: 'home' });
       }
     },
     ...mapActions({
@@ -57,10 +57,13 @@ export default {
     ])
   },
   watch: {
-    signedIn(value) {
-      if (value) {
-        this.onLoggedIn()
-      }
+    signedIn: {
+      immediate: true,
+      handler(value) {
+        if (value) {
+          this.onLoggedIn();
+        }
+      },
     }
   },
 };
