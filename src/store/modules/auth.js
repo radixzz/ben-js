@@ -9,6 +9,7 @@ import {
   AUTH_RESTORE,
   AUTH_SIGN_IN,
   AUTH_SIGN_OUT,
+  AUTH_SIGN_IN_GUEST,
 } from './types/action-types';
 
 import {
@@ -18,7 +19,7 @@ import {
 } from './types/mutation-types';
 
 const app = firebase.initializeApp(firebaseConfig);
-
+console.log('init store');
 const state = {
   user: {},
   token: null,
@@ -26,11 +27,12 @@ const state = {
 };
 
 const getters = {
-  signedIn: state => !!state.token && !!state.user.uid,
+  signedIn: state => state.user.role !== undefined,
+  userRole: state => state.user.role,
   app: () => app,
 };
 
-async function setUser(commit, user) {
+async function setFirestoreUser(commit, user) {
   return new Promise((resolve) => {
     if (user) {
       user.getIdToken().then(async (token) => {
@@ -41,6 +43,7 @@ async function setUser(commit, user) {
         const gitUser = await api.getUserById(uid);
         commit(AUTH_SET_USER, {
           isAnonymous: false,
+          role: 'user',
           name: gitUser.name,
           username: gitUser.login,
           avatarUrl: gitUser.avatar_url,
@@ -53,13 +56,25 @@ async function setUser(commit, user) {
   });
 }
 
+function setGuestUser(commit) {
+  commit(AUTH_SET_USER, {
+    isAnonymous: true,
+    role: 'guest',
+    uid: 'guest',
+    username: 'Guest',
+    avatarUrl: '/assets/logo.png',
+  });
+}
+
 const actions = {
   async [AUTH_RESTORE]({ commit }) {
     return new Promise((resolve) => {
       firebase.auth().onAuthStateChanged(
         async (user) => {
           if (user) {
-            await setUser(commit, user);
+            await setFirestoreUser(commit, user);
+          } else {
+            setGuestUser(commit);
           }
           resolve();
         }
@@ -74,7 +89,7 @@ const actions = {
         provider.addScope('read:user');
         firebase.auth().signInWithPopup(provider).then(
           async (result) => {
-            await setUser(commit, result.user);
+            await setFirestoreUser(commit, result.user);
             resolve();
           }
         ).catch((error) => {
@@ -94,6 +109,9 @@ const actions = {
         resolve();
       });
     });
+  },
+  [AUTH_SIGN_IN_GUEST]({ commit }) {
+    setGuestUser(commit);
   }
 };
 

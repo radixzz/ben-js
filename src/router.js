@@ -38,15 +38,32 @@ const router = new VueRouter({
       name: "benchmark-editor-unpublished",
       component: BenchmarkWorkspace,
       meta: {
-        requiresAuth: true,
+        auth: {
+          enabled: true,
+          roles: ['guest', 'user'],
+        }
       },
+    },
+    {
+      path: "/guest/:slug/edit",
+      name: "benchmark-editor-guest",
+      component: BenchmarkWorkspace,
+      meta: {
+        auth: {
+          enabled: true,
+          roles: ['guest', 'user'],
+        }
+      }
     },
     {
       path: "/:username/:slug/edit",
       name: "benchmark-editor",
       component: BenchmarkWorkspace,
       meta: {
-        requiresAuth: true,
+        auth: {
+          enabled: true,
+          roles: ['user'],
+        }
       },
     },
   ]
@@ -59,8 +76,10 @@ async function onBeforeEach(to, from, next) {
     next({ name: 'home' });
   } else {
     await Store.dispatch(AUTH_RESTORE);
-    // route requires login and is not logged in
-    if (to.meta.requiresAuth && !Store.getters.signedIn) {
+    const { auth } = to.meta;
+    const { userRole } = Store.getters;
+    const toLogin = auth && auth.enabled && !auth.roles.includes(userRole);
+    if (toLogin) {
       next({ name: 'login', query: { after_login: to.path } });
     // already logged in and headed to login page?
     } else if (to.name === 'login' && Store.getters.signedIn) {

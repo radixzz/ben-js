@@ -1,7 +1,6 @@
-import { throttle } from 'lodash';
 import Vue from 'vue';
 import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+import LocalStorage from './utils/local-storage';
 import auth from './modules/auth';
 import cdnjs from './modules/cdnjs';
 import editors from './modules/editors';
@@ -17,12 +16,30 @@ export default new Vuex.Store({
     editors,
     workspace,
   },
-  plugins: [createPersistedState({
-    key: 'benjs',
-    paths: ['workspace', 'editors'],
-    setState: throttle((key, state, storage) => {
-      console.log('saving state...');
-      storage.setItem(key, JSON.stringify(state));
-    }, 1000),
-  })],
+  plugins: [
+    LocalStorage({
+      key: 'benjs',
+      paths: ['workspace', 'editors'],
+      routes: [
+        {
+          path: "/create",
+          storageKey: 'unsaved',
+        },
+        {
+          path: "/guest/:slug/edit",
+          storageKey: (match) => {
+            const { slug } = match.params;
+            return `guest/${slug}`;
+          },
+        },
+        {
+          path: "/:username/:slug/edit",
+          storageKey: (match) => {
+            const { username, slug } = match.params;
+            return `${username}/${slug}`;
+          },
+        }
+      ]
+    }),
+  ],
 });
