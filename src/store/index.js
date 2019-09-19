@@ -19,13 +19,15 @@ export default new Vuex.Store({
   plugins: [
     LocalStorage({
       key: 'benjs',
-      paths: ['workspace', 'editors'],
+      store: ['auth.offline'],
       routes: [
         {
+          store: ['workspace', 'editors'],
           path: "/create",
           storageKey: 'unsaved',
         },
         {
+          store: ['workspace', 'editors'],
           path: "/guest/:slug/edit",
           storageKey: (match) => {
             const { slug } = match.params;
@@ -33,12 +35,13 @@ export default new Vuex.Store({
           },
         },
         {
+          store: ['workspace', 'editors'],
           path: "/:username/:slug/edit",
           storageKey: (match) => {
             const { username, slug } = match.params;
             return `${username}/${slug}`;
           },
-        }
+        },
       ]
     }),
   ],
