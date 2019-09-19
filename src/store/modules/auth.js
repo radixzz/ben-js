@@ -16,11 +16,12 @@ import {
   AUTH_SET_ERROR,
   AUTH_SET_USER,
   AUTH_SET_TOKEN,
+  AUTH_SET_OFFLINE,
 } from './types/mutation-types';
 
 const app = firebase.initializeApp(firebaseConfig);
-console.log('init store');
 const state = {
+  offline: false,
   user: {},
   token: null,
   error: null,
@@ -42,7 +43,6 @@ async function setFirestoreUser(commit, user) {
         // get the username in a separated call (firebase is not providing this field)
         const gitUser = await api.getUserById(uid);
         commit(AUTH_SET_USER, {
-          isAnonymous: false,
           role: 'user',
           name: gitUser.name,
           username: gitUser.login,
@@ -58,7 +58,6 @@ async function setFirestoreUser(commit, user) {
 
 function setGuestUser(commit) {
   commit(AUTH_SET_USER, {
-    isAnonymous: true,
     role: 'guest',
     uid: 'guest',
     username: 'Guest',
@@ -67,13 +66,13 @@ function setGuestUser(commit) {
 }
 
 const actions = {
-  async [AUTH_RESTORE]({ commit }) {
+  async [AUTH_RESTORE]({ state, commit }) {
     return new Promise((resolve) => {
       firebase.auth().onAuthStateChanged(
         async (user) => {
           if (user) {
             await setFirestoreUser(commit, user);
-          } else {
+          } else if (state.offline) {
             setGuestUser(commit);
           }
           resolve();
@@ -106,11 +105,13 @@ const actions = {
       firebase.auth().signOut().then(() => {
         commit(AUTH_SET_USER, {});
         commit(AUTH_SET_TOKEN, null);
+        commit(AUTH_SET_OFFLINE, false);
         resolve();
       });
     });
   },
   [AUTH_SIGN_IN_GUEST]({ commit }) {
+    commit(AUTH_SET_OFFLINE, true);
     setGuestUser(commit);
   }
 };
@@ -124,7 +125,10 @@ const mutations = {
   },
   [AUTH_SET_ERROR](state, error) {
     state.error = error;
-  }
+  },
+  [AUTH_SET_OFFLINE](state, offline) {
+    state.offline = offline;
+  },
 };
 
 export default {

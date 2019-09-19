@@ -14,6 +14,7 @@ export const WORKSPACE_SET_SIDEBAR = 'workspace/mutation/set-sidebar';
 export const AUTH_SET_ERROR = 'auth/error';
 export const AUTH_SET_USER = 'auth/set-user';
 export const AUTH_SET_TOKEN = 'auth/set-token';
+export const AUTH_SET_OFFLINE = 'auth/set-offline';
 export const CDNJS_SET_LIBRARIES = 'cdnjs/mutation/set-libraries';
 export const CDNJS_SET_TARGETS = 'cdnjs/mutation/set-targets';
 export const CDNJS_SET_URL_TEMPLATE = 'cdnjs/mutation/set-url-template';
