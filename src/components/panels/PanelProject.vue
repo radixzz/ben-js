@@ -6,7 +6,7 @@
       <form-edit
         id="project-name"
         label="Project Name"
-        v-model="workspace.title"
+        v-model.lazy="workspace.title"
         :maxLength='40'
       />
       <form-text-area
@@ -23,37 +23,27 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { WORKSPACE_UPDATE } from '@/store/modules/types/action-types';
+import {
+  WORKSPACE_UPDATE_TITLE,
+  WORKSPACE_UPDATE_DESCRIPTION,
+} from '@/store/modules/types/action-types';
+import { mapStateFields } from '@/utils/utils-vuex';
 import Panel from '@/components/panels/Panel.vue';
 import FormEdit from '@/components/form/FormEdit.vue';
 import FormTextArea from '@/components/form/FormTextArea.vue';
 
 export default {
+  name: 'PanelProject',
   components: {
     Panel,
     FormTextArea,
     FormEdit,
   },
-  methods: {
-    updateTitle(title) {
-      this.updateWorskpace({ title });
-    },
-    updateDescription(description) {
-      this.updateWorskpace({ description });
-    },
-    updateWorskpace(props) {
-      const { slug, title, description } = this;
-      this.$store.dispatch(WORKSPACE_UPDATE, {
-        ...{ slug, title, description },
-        ...props,
-      });
-    }
-  },
   computed: {
-    ...mapState({
-      workspace: state => state.workspace,
-    }),
+    ...mapStateFields('workspace', [
+      { action: WORKSPACE_UPDATE_TITLE, prop: 'title' },
+      { action: WORKSPACE_UPDATE_DESCRIPTION, prop: 'description' },
+    ])
   }
 };
 </script>

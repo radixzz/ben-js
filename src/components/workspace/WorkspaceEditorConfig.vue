@@ -6,12 +6,12 @@
   >
     <form-edit
       label="Test Title"
-      v-model="activeEditor.title"
+      v-model="editors.activeEditor.title"
     />
     <form-group>
       <form-checkbox
         label="Async"
-        v-model="activeEditor.async"
+        v-model="editors.activeEditor.async"
       />
       <div
         class="WorkspaceEditorConfig-Delete"
@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { EDITORS_UPDATE_OPTIONS } from '@/store/modules/types/action-types';
+import { mapStateFields } from '@/utils/utils-vuex';
 import WidgetLibraries from '@/components/widgets/WidgetLibraries.vue';
 import LayoutModal from '@/components/layout/LayoutModal.vue';
 import FormEdit from '@/components/form/FormEdit.vue';
@@ -44,7 +45,7 @@ export default {
   },
   methods: {
     onDeleteClick() {
-      this.$emit('delete', this.activeEditor.id);
+      this.$emit('delete', this.editors.active);
       this.$emit('close');
     },
     onCloseClick() {
@@ -52,8 +53,26 @@ export default {
     },
   },
   computed: {
-    ...mapGetters([
-      'activeEditor',
+    ...mapStateFields('editors', [
+      { prop: 'active' },
+      {
+        getter: 'activeEditor.title',
+        setter: (store, value) => {
+          store.dispatch(EDITORS_UPDATE_OPTIONS, {
+            id: store.getters.activeEditor.id,
+            title: value
+          });
+        },
+      },
+      {
+        getter: 'activeEditor.async',
+        setter: (store, value) => {
+          store.dispatch(EDITORS_UPDATE_OPTIONS, {
+            id: store.getters.activeEditor.id,
+            async: value
+          });
+        },
+      }
     ])
   }
 };

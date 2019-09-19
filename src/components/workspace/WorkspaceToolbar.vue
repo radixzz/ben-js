@@ -9,7 +9,7 @@
         @click="$emit('sidebarClick')"
       />
       <label-edit
-        v-show="!workspace.sidebar.visible"
+        v-if="!workspace.sidebar.visible"
         class="WorkspaceToolbar-LabelEdit"
         v-model="workspace.title"
       />
@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { WORKSPACE_UPDATE_TITLE } from '@/store/modules/types/action-types';
+import { mapStateFields } from '@/utils/utils-vuex';
 import AppButton from '@/components/AppButton.vue'
 import LabelEdit from '@/components/LabelEdit.vue'
 
@@ -32,9 +33,10 @@ export default {
     LabelEdit,
   },
   computed: {
-    ...mapState({
-      workspace: state => state.workspace,
-    }),
+    ...mapStateFields('workspace', [
+      { prop: 'sidebar.visible' },
+      { action: WORKSPACE_UPDATE_TITLE, prop: 'title' },
+    ])
   }
 };
 </script>
