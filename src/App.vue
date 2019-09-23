@@ -1,6 +1,7 @@
 <template>
   <main id='app' class="App">
       <layout-header
+        v-if="authRestored"
         @menuClick="menuVisible = true"
       />
       <layout-user-menu
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import LayoutHeader from '@/components/layout/LayoutHeader.vue';
 import LayoutUserMenu from '@/components/layout/LayoutUserMenu.vue';
 
@@ -26,6 +28,11 @@ export default {
       menuVisible: false,
     }
   },
+  computed: {
+    ...mapState({
+      authRestored: state => state.auth.restored,
+    })
+  }
 };
 </script>
 
