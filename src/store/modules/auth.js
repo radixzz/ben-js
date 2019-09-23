@@ -46,7 +46,6 @@ async function setFirebaseUser(commit, user) {
           email,
           uid,
         });
-        commit(AUTH_SET_RESTORED, true);
         resolve();
       });
     } else {
@@ -72,6 +71,7 @@ const actions = {
     } else if (state.offline) {
       setGuestUser(commit);
     }
+    commit(AUTH_SET_RESTORED, true);
   },
   async [AUTH_SIGN_IN]({ commit }) {
     const gitScopes = ['gist', 'read:user'];
