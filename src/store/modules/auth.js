@@ -1,9 +1,5 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
-import 'firebase/storage';
-import firebaseConfig from '@/firebase.json';
-import GithubAPI from '@/api/github-api';
+import * as Firebase from '@/api/firebase';
+import Github from '@/api/github';
 
 import {
   AUTH_RESTORE,
@@ -17,11 +13,12 @@ import {
   AUTH_SET_USER,
   AUTH_SET_TOKEN,
   AUTH_SET_OFFLINE,
+  AUTH_SET_RESTORED,
 } from './types/mutation-types';
 
-const app = firebase.initializeApp(firebaseConfig);
 const state = {
   offline: false,
+  restored: false,
   user: {},
   token: null,
   error: null,
@@ -30,15 +27,14 @@ const state = {
 const getters = {
   signedIn: state => state.user.role !== undefined,
   userRole: state => state.user.role,
-  app: () => app,
 };
 
-async function setFirestoreUser(commit, user) {
-  return new Promise((resolve) => {
+async function setFirebaseUser(commit, user) {
+  return new Promise((resolve, reject) => {
     if (user) {
       user.getIdToken().then(async (token) => {
         commit(AUTH_SET_TOKEN, token);
-        const api = new GithubAPI(token);
+        const api = new Github(token);
         const { uid, email } = user.providerData[0];
         // get the username in a separated call (firebase is not providing this field)
         const gitUser = await api.getUserById(uid);
@@ -50,8 +46,11 @@ async function setFirestoreUser(commit, user) {
           email,
           uid,
         });
+        commit(AUTH_SET_RESTORED, true);
         resolve();
       });
+    } else {
+      reject();
     }
   });
 }
@@ -60,55 +59,31 @@ function setGuestUser(commit) {
   commit(AUTH_SET_USER, {
     role: 'guest',
     uid: 'guest',
-    username: 'Guest',
+    username: 'guest',
     avatarUrl: '/assets/logo.png',
   });
 }
 
 const actions = {
   async [AUTH_RESTORE]({ state, commit }) {
-    return new Promise((resolve) => {
-      firebase.auth().onAuthStateChanged(
-        async (user) => {
-          if (user) {
-            await setFirestoreUser(commit, user);
-          } else if (state.offline) {
-            setGuestUser(commit);
-          }
-          resolve();
-        }
-      );
-    })
+    const user = await Firebase.GetCurrentUser();
+    if (user) {
+      await setFirebaseUser(commit, user);
+    } else if (state.offline) {
+      setGuestUser(commit);
+    }
   },
   async [AUTH_SIGN_IN]({ commit }) {
-    return new Promise((resolve, reject) => {
-      if (!firebase.auth().currentUser) {
-        const provider = new firebase.auth.GithubAuthProvider();
-        provider.addScope('gist');
-        provider.addScope('read:user');
-        firebase.auth().signInWithPopup(provider).then(
-          async (result) => {
-            await setFirestoreUser(commit, result.user);
-            resolve();
-          }
-        ).catch((error) => {
-          commit(AUTH_SET_ERROR, {
-            error,
-          });
-          reject(error);
-        });
-      }
-    });
+    const gitScopes = ['gist', 'read:user'];
+    await Firebase.SignIn(gitScopes);
+    const user = await Firebase.GetCurrentUser();
+    await setFirebaseUser(commit, user);
   },
   async [AUTH_SIGN_OUT]({ commit }) {
-    return new Promise((resolve) => {
-      firebase.auth().signOut().then(() => {
-        commit(AUTH_SET_USER, {});
-        commit(AUTH_SET_TOKEN, null);
-        commit(AUTH_SET_OFFLINE, false);
-        resolve();
-      });
-    });
+    await Firebase.SignOut();
+    commit(AUTH_SET_USER, {});
+    commit(AUTH_SET_TOKEN, null);
+    commit(AUTH_SET_OFFLINE, false);
   },
   [AUTH_SIGN_IN_GUEST]({ commit }) {
     commit(AUTH_SET_OFFLINE, true);
@@ -129,6 +104,9 @@ const mutations = {
   [AUTH_SET_OFFLINE](state, offline) {
     state.offline = offline;
   },
+  [AUTH_SET_RESTORED](state, restored) {
+    state.restored = restored;
+  }
 };
 
 export default {
