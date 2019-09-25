@@ -99,15 +99,11 @@ export default {
   },
   data() {
     return {
-      initted: false,
       editorConfigVisible: false,
     };
   },
   mounted() {
-    if (!this.initted) {
-      this.initted = true;
-      this.loadDefault();
-    }
+    this.loadDefault();
   },
   methods: {
     loadDefault() {
