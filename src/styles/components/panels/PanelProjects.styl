@@ -1,0 +1,45 @@
+@import '~styles/common.styl'
+
+.PanelProjects
+  position relative
+  width 100%
+  font-size 13px
+  color $GRAY
+
+.PanelProjects-Item
+  user-select none
+  position relative
+  padding 5px 40px 5px 5px
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+  &:before
+    transition all 0.25s ease-out
+    content ''
+    margin 1px 7px 2px 1px
+    display inline-block
+    background $MINE_SHAFT_PLUS
+    border-radius 5px
+    size 6px
+  &:hover
+    color $ALTO
+    &:before
+      background $GRAY
+    .PanelProjects-ItemButton
+      display flex
+
+.PanelProjects-ItemButton
+  display none
+  width 34px
+  position absolute
+  right 0
+  top 0
+
+.PanelProjects-NoProjects
+  user-select none
+  display flex
+  size 100%
+  min-height 100%
+  color $TUNDORA
+  justify-content center
+  align-items center
