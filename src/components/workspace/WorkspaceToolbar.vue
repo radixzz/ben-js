@@ -16,13 +16,33 @@
     </div>
     <div class="WorkspaceToolbar-BenchActions">
       <app-button icon="icon-export" hint="Export" text="Export" :solid='false'/>
-      <app-button icon="icon-cloud-upload" hint="Save your progress remotely" text="Save" :solid='false'/>
+      <app-button
+        v-if="offline"
+        @click="onSaveLocalClick"
+        icon="icon-save"
+        hint="Save your progress locally"
+        text="Save"
+        :solid='false'
+      />
+      <app-button
+        v-else
+        @click="onSaveRemoteClick"
+        icon="icon-cloud-upload"
+        hint="Save your progress remotely"
+        text="Save"
+        :solid='false'
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { WORKSPACE_UPDATE_TITLE } from '@/store/modules/types/action-types';
+import { mapState } from 'vuex'
+import {
+  WORKSPACE_UPDATE_TITLE,
+  PROJECTS_SAVE_CURRENT_TO_LOCAL,
+  PROJECTS_SAVE_CURRENT_TO_REMOTE,
+} from '@/store/modules/types/action-types';
 import { mapStateFields } from '@/utils/utils-vuex';
 import AppButton from '@/components/AppButton.vue'
 import LabelEdit from '@/components/LabelEdit.vue'
@@ -32,7 +52,25 @@ export default {
     AppButton,
     LabelEdit,
   },
+  methods: {
+    async onSaveLocalClick() {
+      console.log('saving local');
+      const { dispatch } = this.$store;
+      await dispatch(PROJECTS_SAVE_CURRENT_TO_LOCAL);
+      console.log('done');
+    },
+    async onSaveRemoteClick() {
+      const { dispatch } = this.$store;
+      console.log('saving remotely');
+      await dispatch(PROJECTS_SAVE_CURRENT_TO_LOCAL);
+      await dispatch(PROJECTS_SAVE_CURRENT_TO_REMOTE);
+      console.log('done');
+    },
+  },
   computed: {
+    ...mapState({
+      offline: state => state.auth.offline,
+    }),
     ...mapStateFields('workspace', [
       { prop: 'sidebar.visible' },
       { action: WORKSPACE_UPDATE_TITLE, prop: 'title' },
