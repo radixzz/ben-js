@@ -4,9 +4,9 @@
       :sizes='[70, 30]'
       direction="vertical"
     >
-      <panel-project />
+      <panel-project-settings />
       <panes-split/>
-      <panel-explorer />
+      <panel-projects />
     </panes-container>
   </nav>
 </template>
@@ -14,15 +14,15 @@
 <script>
 import PanesContainer from '@/components/panes/PanesContainer.vue';
 import PanesSplit from '@/components/panes/PanesSplit.vue';
-import PanelProject from '@/components/panels/PanelProject.vue';
-import PanelExplorer from '@/components/panels/PanelExplorer.vue';
+import PanelProjectSettings from '@/components/panels/PanelProjectSettings.vue';
+import PanelProjects from '@/components/panels/PanelProjects.vue';
 
 export default {
   components: {
     PanesContainer,
     PanesSplit,
-    PanelProject,
-    PanelExplorer,
+    PanelProjectSettings,
+    PanelProjects,
   },
   methods: {
   },
