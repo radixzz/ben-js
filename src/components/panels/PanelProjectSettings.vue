@@ -1,5 +1,5 @@
 <template>
-  <div class="PanelProject">
+  <div class="PanelProjectSettings">
     <panel
       title="Project Settings"
     >
@@ -11,7 +11,7 @@
       />
       <form-text-area
         id="project-description"
-        class="PanelProject-TextArea"
+        class="PanelProjectSettings-TextArea"
         placeholder="What are you testing?"
         v-model="workspace.description"
         :maxLength='250'
@@ -33,7 +33,7 @@ import FormEdit from '@/components/form/FormEdit.vue';
 import FormTextArea from '@/components/form/FormTextArea.vue';
 
 export default {
-  name: 'PanelProject',
+  name: 'PanelProjectSettings',
   components: {
     Panel,
     FormTextArea,
@@ -48,4 +48,4 @@ export default {
 };
 </script>
 
-<style lang="stylus" src="styles/components/panels/PanelProject.styl"></style>
+<style lang="stylus" src="styles/components/panels/PanelProjectSettings.styl"></style>
