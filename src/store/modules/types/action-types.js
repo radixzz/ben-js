@@ -1,3 +1,6 @@
+export const PROJECTS_RESTORE = 'projects/action/restore';
+export const PROJECTS_SAVE_CURRENT_TO_LOCAL = 'projects/action/save-current-local';
+export const PROJECTS_SAVE_CURRENT_TO_REMOTE = 'projects/action/save-current-remote';
 export const EDITORS_RESET = 'editors/action/reset';
 export const EDITORS_CREATE = 'editors/action/create';
 export const EDITORS_UPDATE_OPTIONS = 'editors/action/update';

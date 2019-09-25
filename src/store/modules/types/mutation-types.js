@@ -1,3 +1,5 @@
+export const PROJECTS_ADD = 'projects/mutation/add';
+export const PROJECTS_CLEAR = 'projects/mutation/clear';
 export const EDITORS_ADD = 'editors/mutation/add';
 export const EDITORS_REMOVE = 'editors/mutation/remove';
 export const EDITORS_SET_CONTENT = 'editors/mutation/set-content';

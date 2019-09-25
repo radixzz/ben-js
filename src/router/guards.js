@@ -1,8 +1,13 @@
 import Store from '@/store';
-import { AUTH_RESTORE, AUTH_SIGN_OUT } from '@/store/modules/types/action-types';
+import {
+  AUTH_RESTORE,
+  AUTH_SIGN_OUT,
+  PROJECTS_RESTORE
+} from '@/store/modules/types/action-types';
 
 export async function GlobalGuardBeforeEach(to, from, next) {
   await Store.dispatch(AUTH_RESTORE);
+  await Store.dispatch(PROJECTS_RESTORE);
   const { auth } = to.meta;
   const { userRole } = Store.getters;
   const toLogin = auth && auth.enabled && !auth.roles.includes(userRole);
@@ -30,6 +35,7 @@ export async function GuardBeforeLogout(to, from, next) {
 
 export async function GuardBeforeUserWorkspaceEdit(to, from, next) {
   await Store.dispatch(AUTH_RESTORE);
+  await Store.dispatch(PROJECTS_RESTORE);
   // Sync with current project
   next();
 }

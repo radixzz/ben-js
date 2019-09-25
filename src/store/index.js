@@ -5,6 +5,7 @@ import auth from './modules/auth';
 import cdnjs from './modules/cdnjs';
 import editors from './modules/editors';
 import workspace from './modules/workspace';
+import projects from './modules/projects';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     cdnjs,
     editors,
     workspace,
+    projects,
   },
   plugins: [
     LocalStorage({
