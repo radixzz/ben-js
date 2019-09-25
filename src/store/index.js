@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import LocalStorage from './utils/local-storage';
+import LocalStorage from '@/utils/local-storage';
 import auth from './modules/auth';
 import cdnjs from './modules/cdnjs';
 import editors from './modules/editors';

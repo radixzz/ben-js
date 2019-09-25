@@ -5,7 +5,7 @@ import {
   merge
 } from 'lodash';
 import createPersistedState from 'vuex-persistedstate';
-import { getMatchingRoute } from './route-match';
+import { getMatchingRoute } from '@/utils/route-match';
 
 function getStorageKey(match) {
   const { storageKey } = match.route;
